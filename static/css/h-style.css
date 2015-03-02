@@ -6,6 +6,14 @@
 	width: 100%;
 }
 
+.navbar-inverse .nav>li>a {
+	color: #ECF0F1;
+}
+
+.navbar-inverse .nav li.dropdown.open>.dropdown-toggle, .navbar-inverse .nav li.dropdown.active>.dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active>.dropdown-toggle {
+	background-color: #3498DB;
+}
+
 .navbar-s .navbar-inner {
 	background-color: #2C3E50;
 	background-image: none;

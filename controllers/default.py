@@ -36,6 +36,18 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
+    db.auth_user.first_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
+    _placeholder='Person')
+    db.auth_user.last_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
+    _placeholder='Personson')
+    db.auth_user.email.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
+    _placeholder='example@email.com')
+    db.auth_user.username.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
+    _placeholder='Blahblah')
+    db.auth_user.password.widget = lambda f,v: SQLFORM.widgets.password.widget(f, v,
+    _placeholder='6-12 alphanumeric characters')
+
+
     return dict(form=auth())
 
 
