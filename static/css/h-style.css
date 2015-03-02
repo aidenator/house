@@ -1,0 +1,29 @@
+.body-s{
+	background-color: #ECF0F1;
+}
+
+.navbar-s {
+	width: 100%;
+}
+
+.navbar-s .navbar-inner {
+	background-color: #2C3E50;
+	background-image: none;
+	min-width: 500px;
+}
+
+.navbar-s .navbar-inner .container{
+	margin: 0px auto 0px auto;
+	width: 80%;
+	min-width: 500px;
+}
+
+.navbar-s .flash {
+	background-color: #2C3E50;
+	background-image: none;
+	border-color: #2C3E5F;
+}
+
+.body-s .container #main {
+	background-color: white;
+}
