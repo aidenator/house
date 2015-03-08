@@ -5,8 +5,8 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('web',SPAN(2),'py'),XML('&trade;&nbsp;'),
-                  _class="brand",_href="http://www.web2py.com/")
+response.logo = A(B('HOUSE'),
+                  _class="brand",_href=URL('default', 'index'))
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
 
@@ -23,10 +23,17 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    (T('My Home'), False, URL('default', 'index'), [
+      (T('Housemates'), False, URL('default', 'index'), [
+        (T('Whatshisface'), False, URL()),
+        (T('Whoseherface'), False, URL()),
+        (T('Blarg'), False, URL())
+        ]),
+      (T('Rent'), False, URL())
+      ])
 ]
 
-DEVELOPMENT_MENU = True
+DEVELOPMENT_MENU = False
 
 #########################################################################
 ## provide shortcuts for development. remove in production
@@ -38,8 +45,7 @@ def _():
     ctr = request.controller
     # useful links to internal and external resources
     response.menu += [
-        (SPAN('web2py', _class='highlighted'), False, 'http://web2py.com', [
-        (T('My Sites'), False, URL('admin', 'default', 'site')),
+        (SPAN('web2py', _class='highlighted'), False, 'http://web2py.com', [(T('My Sites'), False, URL('admin', 'default', 'site')),
         (T('This App'), False, URL('admin', 'default', 'design/%s' % app), [
         (T('Controller'), False,
          URL(

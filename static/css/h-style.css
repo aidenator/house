@@ -1,0 +1,129 @@
+/*THESE ARE STRICTLY FOR layout.html SCROLL DOWN TO FIND MORE*/
+
+.body-s{
+	background-color: #ECF0F1;
+}
+
+.navbar-s {
+	width: 100%;
+}
+
+.navbar-inverse .nav>li>a {
+	color: #ECF0F1;
+}
+
+.navbar-inverse .nav li.dropdown.open>.dropdown-toggle, .navbar-inverse .nav li.dropdown.active>.dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active>.dropdown-toggle {
+	background-color: #1ABC9C;
+}
+
+.navbar-s .navbar-inner {
+	background-color: #2C3E50;
+	background-image: none;
+	min-width: 500px;
+}
+
+.navbar-inner .nav li a:hover {
+	background: #1ABC9C;
+}
+
+.navbar-inner .nav li a:focus {
+	background-color: #1ABC9C;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus, .dropdown-submenu:hover>a, .dropdown-submenu:focus>a {
+	background-color: #1ABC9C;
+	background-image: none;
+}
+
+.navbar-s .navbar-inner .container{
+	margin: 0px auto 0px auto;
+	width: 80%;
+	min-width: 500px;
+}
+
+.navbar-s .flash {
+	background-color: #2C3E50;
+	background-image: none;
+	border-color: #2C3E5F;
+}
+
+/* THESE PERTAIN TO THE MAIN CONTENT*/
+
+.body-s .container #main {
+	background-color: white;
+}
+
+.main-top {
+	margin-top: 50px;
+}
+
+.main-top .user-pic {
+	background-color: grey;
+	width: 240px;
+	height: 240px;
+	vertical-align: top;
+	margin-right: 30px;
+}
+
+.main-top .summary {
+	width: 70%;
+	min-width: 658px;
+	height: 200px;
+	display: inline-block;
+}
+
+.main-name {
+	height: 30px;
+	font-size: 3em;
+	margin-top: 10px;
+	margin-bottom: 15px;
+	line-height: 100%;
+}
+
+.info {
+
+}
+
+.member-list {
+	margin-top: 30px;
+}
+
+.member-list ul{
+	list-style: none;
+	margin-left: 0px;
+}
+
+.member-list ul li{
+	display: inline-block;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	height: 120px;
+	width: 120px;
+	background-color: grey;
+	border: 
+}
+
+.thumbnail {
+	position: relative;
+}
+
+.thumbnail .text {
+	font-weight: bold;
+	background-color: #1ABC9C;
+	padding-left: 10px;
+	width: 160px;
+	opacity: 0;
+	position: absolute;
+	color: white;
+	bottom: 20px;
+	left: 10px;
+	transition: opacity 500ms;
+}
+
+.thumbnail:hover .text {
+	opacity: 1;
+}
+
+.member-list ul li:hover{
+	cursor: pointer;
+}
