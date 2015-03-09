@@ -1,4 +1,8 @@
 #By Aiden Hoopes and Mark Manguray for CMPS 183 Winter 2015
+
+from datetime import datetime
+from datetime import date 
+
 def index():
     """
     example action using the internationalization operator T and flash
@@ -7,8 +11,8 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    #response.flash = T("Welcome to web2py!")
-    return dict()
+    ##response.flash = T(datetime_convert())
+    return dict(today = today_string())
 
 
 def user():
@@ -36,7 +40,6 @@ def user():
     _placeholder='Blahblah')
     db.auth_user.password.widget = lambda f,v: SQLFORM.widgets.password.widget(f, v,
     _placeholder='6-12 alphanumeric characters')
-
 
     return dict(form=auth())
 
@@ -75,3 +78,9 @@ def api():
         '<tablename>': {'GET':{},'POST':{},'PUT':{},'DELETE':{}},
         }
     return Collection(db).process(request,response,rules)
+
+
+def today_string():
+    today = date.today()
+    today_format = today.strftime('Today is %B %d, %Y')
+    return today_format
