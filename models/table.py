@@ -32,5 +32,5 @@ db.define_table('users',
 #db.bboard.category.required = True
 db.house.date_posted.default = datetime.utcnow()
 db.house.date_posted.writable = False
-db.house.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The price should be in the range 0..100000')
+db.house.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The rent should be in the range 0..100000')
 db.house.title.required = True

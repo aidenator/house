@@ -1,9 +1,20 @@
 #By Aiden Hoopes and Mark Manguray for CMPS 183 Winter 2015
-
+import logging
 from datetime import datetime
 from datetime import date 
 
 def index():
+    message = ''
+    listofhouses = db(db.users.name == auth.user.username).select(orderby=db.users.name)
+    logger.info("Username is = %r" % auth.user.username)
+    if auth.user == None:
+        message = "Please login to create, view, or join a house!"
+    elif len(listofhouses) == 0:
+        message = "Create a house or ask someone to let you into theirs!"
+        
+    return dict(message=message, listofhouses=listofhouses)
+
+def house():
     """
     example action using the internationalization operator T and flash
     rendered by views/default/index.html or views/generic.html
