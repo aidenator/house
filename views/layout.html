@@ -117,21 +117,17 @@
         </div>
         {{pass}}
     </section><!--/main-->
-
-    <!-- Footer ================================================== -->
-    <div class="row">
-        <footer class="footer span12" id="footer">
-            <div class="footer-content">
+  <footer>
+    <div class="footer-content">
                 {{block footer}} <!-- this is default footer -->
-                <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}}</div>
+                <div class="copyright pull-left">{{=T('Copyright')}} &#169; {{=request.now.year}} {{=T('Home.ly')}}</div>
                 <div id="poweredBy" class="pull-right">
+                    {{=T('Powered by')}}
                     <a href="http://www.web2py.com/">web2py</a>
                 </div>
                 {{end}}
-            </div>
-        </footer>
     </div>
-
+  </footer>
   </div> <!-- /container -->
 
   <!-- The javascript =============================================
