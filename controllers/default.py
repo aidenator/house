@@ -5,13 +5,16 @@ from datetime import date
 
 def index():
     message = ''
-    listofhouses = db(db.users.name == auth.user.username).select(orderby=db.users.name)
-    logger.info("Username is = %r" % auth.user.username)
+    listofhouses = ""
+    logger.info("Username is = %r" % auth.user)
+    #Checks for User Login and House Membership
     if auth.user == None:
         message = "Please login to create, view, or join a house!"
-    elif len(listofhouses) == 0:
-        message = "Create a house or ask someone to let you into theirs!"
-        
+    else:
+        listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
+        if len(listofhouses) == 0:
+            message = "Create a house or ask someone to let you into theirs!" 
+
     return dict(message=message, listofhouses=listofhouses)
 
 def house():
@@ -23,6 +26,7 @@ def house():
     return auth.wiki()
     """
     ##response.flash = T(datetime_convert())
+    house_name = request.args(0) or ''
     return dict(today = today_string())
 
 
