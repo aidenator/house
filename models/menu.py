@@ -5,7 +5,7 @@
 ## Customize your APP title, subtitle and menus here
 #########################################################################
 
-response.logo = A(B('HOUSE'),
+response.logo = A(B('house'),
                   _class="brand",_href=URL('default', 'index'))
 response.title = request.application.replace('_',' ').title()
 response.subtitle = ''
@@ -23,14 +23,6 @@ response.google_analytics_id = None
 #########################################################################
 
 response.menu = [
-    (T('My Home'), False, URL('default', 'index'), [
-      (T('Housemates'), False, URL('default', 'index'), [
-        (T('Whatshisface'), False, URL()),
-        (T('Whoseherface'), False, URL()),
-        (T('Blarg'), False, URL())
-        ]),
-      (T('Rent'), False, URL())
-      ])
 ]
 
 DEVELOPMENT_MENU = False

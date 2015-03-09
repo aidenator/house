@@ -1,28 +1,45 @@
 {{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
 {{extend 'layout.html'}}
+<div class='widget'>
+  <div class='left-sidebar'>
+    <div class='sidebar-content'>
+      <div class='user-profile'>
+        <div class='user-img'></div>
+      </div>
 
-<div class='main-top'>
-  <img class='user-pic'/>
-  <div class='summary'>
-    <div class='main-name'>Placeholder House Name</div>
-    <div class='info'>115 Weird St. Santa Cruz, CA 95060<br>We're craazy!<br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad.</div>
+      <div class='menu'>
+        <ul class='category'>
+          <li class='head'>Welcome, Name</li>
+          <li class='item'><span class='icon-white icon-ok glyphicon glyphicon-ok'></span><span>My Tasks</span></li>
+          <li class='item'><span class='icon-white icon-envelope glyphicon glyphicon-envelope'></span><span>Messages</span></li>
+        </ul>
+
+        <ul class='category'>
+          <li class='head'>My House</li>
+          <li class='item'><span class='icon-white icon-home glyphicon glyphicon-home'></span><span>My House</span></li>
+          <li class='item'><span class='icon-white icon-pencil glyphicon glyphicon-pencil'></span><span>Edit Home</span></li>
+        </ul>
+        <div class='category'>
+          <div class='head'>Housemates</div>
+          <div class='mate-list'>
+            <ul>
+              <li><div class='thumb'></div></li>
+            </ul>
+          </div>
+        </div>
+
+        <ul class='category'>
+          <li class='head'></li>
+          <li class='item'><span class='icon-white icon-cog glyphicon glyphicon-cog'></span><span>Settings</span></li>
+        </ul>
+
+      </div>
+    </div>
   </div>
-</div>
-
-<div class='member-list'>
-  <h2>Members</h2>
-  <ul>
-    <li class='thumbnail'><a href=""><img src=""></a>
-      <a href="" class='text'>Name</a>
-    </li>
-    <li class='thumbnail'><a href=""><img src=""></a>
-      <a href="" class='text'>John</a>
-    </li>
-    <li class='thumbnail'><a href=""><img src=""></a><a href="" class='text'>Kate</a></li>
-    <li class='thumbnail'><a href=""><img src=""></a><a href="" class='text'>Levi</a></li>
-  </ul>
-</div>
-
-<div>
-  <h2>Tasks</h2>
+  <div class='right-content'>
+    <div class='wrapper'>
+      <div class='wallpaper'><div class='over'><div class='greetings'>It's Friday 2:30pm</div></div></div>
+      <div class='content'></div>
+    </div>
+  </div>
 </div>
