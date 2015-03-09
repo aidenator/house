@@ -50,7 +50,6 @@ plugins = PluginManager()
 ## create all tables needed by auth if not custom tables
 auth.define_tables(username=True, signature=False)
 
-
 ## configure email
 mail = auth.settings.mailer
 mail.settings.server = 'logging' if request.is_local else 'smtp.gmail.com:587'
@@ -86,4 +85,3 @@ use_janrain(auth, filename='private/janrain.key')
 
 ## after defining tables, uncomment below to enable auditing
 # auth.enable_record_versioning(db)
-
