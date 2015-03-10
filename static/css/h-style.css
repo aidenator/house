@@ -12,8 +12,8 @@ ul#navbar {
 }
 
 .body-s{
-	background-color: #18222B;
-	color: white;
+	background-color: #F5F8FA;
+	color: black;
 }
 
 .navbar-s {
@@ -65,6 +65,15 @@ ul#navbar {
 	padding-bottom: 0px;
 }
 
+/*****************************************************
+STYLE FOR MAIN INDEX
+******************************************************/
+#big_image {
+	background-image: url('../images/tea.jpg');
+	background-size: 100%;
+	height: 300px;
+}
+
 
 /*****************************************************
 THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
@@ -74,7 +83,8 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 	margin-top: 20px;
 	height: 800px;
 	min-width: 930px;
-
+	border-radius: 6px 6px 6px 6px;
+	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
 	/**********************
@@ -96,11 +106,12 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 
 	.user-profile {
 		padding-top: 25px;
-		padding-bottom: 0px;
+		padding-bottom: 20px;
+		background-color: #D45631;
 	}
 
 	.user-img {
-		background-color: grey;
+		background-color: white;
 		width: 40px;
 		height: 40px;
 		border-radius: 60px;
@@ -113,7 +124,7 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 
 	.menu{
 		text-align: center;
-		padding-top: 20px;
+		padding-top: 0px;
 	}
 		.menu .category {
 			padding: 0px 0 10px 0px;
@@ -125,7 +136,6 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 			.category .head {
 				padding: 20px 0px 5px 0px;
 				font-weight: bold;
-				border-top: 1px solid #1F2B38;
 			}
 
 			.category .icon-white {
@@ -188,7 +198,7 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 	Left Sidebar and Content
 	**********************/
 	.right-content {
-		background-color: #ecf0f1;
+		background-color: white;
 		float: right;
 		width: 85%;
 		height: inherit;
@@ -203,15 +213,8 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 
 			.wrapper .wallpaper {
 				height: 85px;
-				background-color: white;
-				background-image: url(../images/forest.jpg);
-				background-size: 100%;
-			}
-
-			.over {
-				color: white;
-				height: inherit;
-				background-color: rgba(0, 0, 0, 0.7);
+				background-color: #2c3e50;
+				border-radius: 0px 6px 0px 0px;
 			}
 
 			.greetings {
@@ -224,17 +227,180 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 				margin: 0 auto;
 			}
 
-			.content {
+			.house_content {
 				background-color: white;
 				width: 100%;
-				height: 89%;
-				overflow: auto;
 			}
+
+		.house_tabs {
+			background-color: #ECF0F1;
+			float: left;
+			width: inherit;
+		}
+
+			.house_tabs ul {
+				list-style: none;
+				margin-left: 0px;
+				margin-bottom: 0px;
+				float: left;
+			}
+
+				.house_tabs ul li {
+					min-width: 70px;
+					margin-right: 0px;
+					background-color: #ECF0F1;
+					color: grey;
+					display: inline;
+					text-align: center;
+					font-size: 1em;
+					height: 30px;
+					padding-left: 10px;
+					padding-right: 10px;
+					padding-top: 10px;
+					float: left;
+					transition: color 400ms ease 0s;
+				}
+
+				.house_tabs ul li:hover {
+					color: #D45631;
+					cursor: pointer;
+				}
+
+				.house_tabs ul #focus {
+					background-color: white;
+					color: #D45631;
+					font-weight: bold;
+				}
+
+				#add_house {
+					box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+					display: inline-block;
+					font-size: 1em;
+					color: white;
+					background-color: #2ecc71;
+					font-weight: bold;
+					padding-left: 10px;
+					min-width: 20px;
+					width: 20px;
+					height: 30px;
+					border-radius: 30px;
+					margin-top: 5px;
+					margin-left: 10px;
+					line-height: 29px;
+					transition: width 400ms cubic-bezier(.55,0,.1,1) 0s;
+				}
+
+				#add_house:hover {
+					width: 120px;
+					cursor: pointer;
+					text-decoration: none;
+				}
+
+				#add_house:active {
+					background-color: #27ae60;
+				}
+
+				.add_message {
+					position: absolute;
+					display: inline-block;
+					opacity: 0;
+					padding-left: 10px;
+					transition: opacity 400ms cubic-bezier(.55,0,.1,1) 0s;
+				}
+
+				#add_house:hover .add_message{
+					opacity: 1;
+					transition: opacity 400ms cubic-bezier(.55,0,.1,1) 0s;
+				}
+
+			#alone {
+				font-size: 4em;
+				width: 100%;
+				height: inherit;
+				text-align: center;
+				padding-top: 300px;
+				color: #bdc3c7;
+			}
+
+			#alone p {
+				font-size: 0.4em;
+				text-align: center;
+				padding-top: 30px;
+			}
+
+
+/*****************************************************
+THIS IS ALL THE THINGS PERTAINING TO THE PEOPLE PROFILE
+******************************************************/
+
+
+#profile_widget {
+	background-color: white;
+	color: rgba(0, 0, 0, 0.7);
+}
+
+#profile_pic {
+	background-color: grey;
+	height: 150px;
+	width: 150px;
+	display: inline-block;
+	border-radius: 150px;
+	box-shadow: 0px 0px 15px rgba(0,0,0,0.4);
+	margin-top: 50px;
+	margin-bottom: 30px;
+}
+
+#profile_widget .username {
+	text-align: center;
+	font-size: 2em;
+}
+
+.profile_content {
+	margin-top: 25px;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+.house_group h2, .posts h2 {
+	font-weight: normal;
+	color: inherit;
+	border-bottom: 1px solid grey;
+	margin-top: 25px;
+}
+
+.house_list {
+	list-style: none;
+	margin-left: 0px;
+	margin-bottom: 0px;
+}
+
+.house_list li {
+	width: 70px;
+	height: 70px;
+	border-radius: 70px;
+	background-color: grey;
+	display: inline-block;
+	margin-right: 10px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+	transition: box-shadow 300ms cubic-bezier(.55,0,.1,1) 0s;
+}
+
+.house_list li:hover {
+	box-shadow: 0px 0px 25px rgba(0,0,0,0.2);
+	cursor: pointer;
+}
+
+/*****************************************************
+THIS IS ALL THE THINGS PERTAINING TO THE PEOPLE PROFILE
+******************************************************/
+#login_header {
+	color: black;
+}
 
 /*************
 FOOTER STYLING
 **************/
 
 footer {
-	color: rgba(255,255,255,0.5);
+	color: rgba(0,0,0,0.5);
 }

@@ -4,12 +4,11 @@
   <div class='left-sidebar'>
     <div class='sidebar-content'>
       <div class='user-profile'>
-        <div class='user-img'></div>
+        {{=A('',DIV('', _class='user-img'), _href=URL('default', 'people', args=[auth.user.username]))}}
       </div>
-
       <div class='menu'>
         <ul class='category'>
-          <li class='head'>Welcome, Name</li>
+          <li class='head'>Welcome, {{=auth.user.first_name}}</li>
           <li class='item'><span class='icon-white icon-ok glyphicon glyphicon-ok'></span><span>My Tasks</span></li>
           <li class='item'><span class='icon-white icon-envelope glyphicon glyphicon-envelope'></span><span>Messages</span></li>
         </ul>
@@ -19,27 +18,40 @@
           <li class='item'><span class='icon-white icon-home glyphicon glyphicon-home'></span><span>My House</span></li>
           <li class='item'><span class='icon-white icon-pencil glyphicon glyphicon-pencil'></span><span>Edit Home</span></li>
         </ul>
-        <div class='category'>
-          <div class='head'>Housemates</div>
-          <div class='mate-list'>
-            <ul>
-              <li><div class='thumb'></div></li>
-            </ul>
-          </div>
-        </div>
 
         <ul class='category'>
           <li class='head'></li>
           <li class='item'><span class='icon-white icon-cog glyphicon glyphicon-cog'></span><span>Settings</span></li>
         </ul>
-
       </div>
     </div>
   </div>
   <div class='right-content'>
     <div class='wrapper'>
       <div class='wallpaper'><div class='over'><div class='greetings'>{{=today}}</div></div></div>
-      <div class='content'></div>
+      <div class='house_content'>
+        <div class='house_tabs'>
+          {{if len(listofhouses) == 0:}}
+          <ul>
+            <li id='focus'>No Houses</li>
+          </ul>
+          {{else:}}
+          <ul>
+            <li id='focus'>test house</li>
+            <li>test house 2</li>
+            <li>test house 3</li>
+            <li>test house 4</li>
+            <li>test house 5</li>
+          </ul>
+          {{pass}}
+          {{=A('+', DIV('New House', _class='add_message'), _id='add_house',_href=URL('default', 'add_house'))}}
+        </div>
+        {{if len(listofhouses) == 0:}}
+        <div id='alone'>There's nothing here :( <p>Try Adding A New House</p></div>
+        {{else:}}
+        <div>There's Stuff here! :D</div>
+        {{pass}}
+      </div>
     </div>
   </div>
 </div>

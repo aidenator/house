@@ -1,12 +1,12 @@
 {{('message' in globals())}}
 {{extend 'layout.html'}}
 
-<h2><center>{{=message}}</center></h2>
-
-<ul>
-{{for h in listofhouses:}}
-<li>
-{{=A(h.name, _href=URL('default', 'index', args=[h.name]))}}
-</li>
+<div class='container'><div class='hero-unit' id='big_image'>
+{{if auth.user == None:}}
+  <div>
+    <h2><center>Please Log In</h2><center>
+  </div>
+{{else:}}
+  {{redirect(URL('default', 'house'))}}
 {{pass}}
-</ul>
+</div></div>

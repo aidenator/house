@@ -20,6 +20,7 @@ db.define_table('users',
                 Field('name', 'text'),
                 Field('house','text'),
                 Field('rent','double'),
+                Field('user_pic', 'upload'),
                 )
 
 #db.bboard.id.readable = False

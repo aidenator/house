@@ -7,16 +7,13 @@ def index():
     message = ''
     listofhouses = ""
     logger.info("Username is = %r" % auth.user)
-    #Checks for User Login and House Membership
+
     if auth.user == None:
-        message = "Please login to create, view, or join a house!"
-    else:
-        listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
-        if len(listofhouses) == 0:
-            message = "Create a house or ask someone to let you into theirs!" 
+        redirect(URL('default', 'user', args = ['login']))
 
-    return dict(message=message, listofhouses=listofhouses)
+    return dict()
 
+@auth.requires_login()
 def house():
     """
     example action using the internationalization operator T and flash
@@ -26,9 +23,10 @@ def house():
     return auth.wiki()
     """
     ##response.flash = T(datetime_convert())
+    listofhouses = ""
+    listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
     house_name = request.args(0) or ''
-    return dict(today = today_string())
-
+    return dict(today = today_string(), listofhouses = listofhouses)
 
 def user():
     """
@@ -46,22 +44,31 @@ def user():
     to decorate functions that need access control
     """
     db.auth_user.first_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Person')
+    _placeholder='First Name')
     db.auth_user.last_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Personson')
+    _placeholder='Last Name')
     db.auth_user.email.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='example@email.com')
+    _placeholder='Email Address')
     db.auth_user.username.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Blahblah')
+    _placeholder='Username')
     db.auth_user.password.widget = lambda f,v: SQLFORM.widgets.password.widget(f, v,
-    _placeholder='6-12 alphanumeric characters')
+    _placeholder='Password')
 
     return dict(form=auth())
 
-
 def index2():
-
     return dict()
+
+@auth.requires_login()
+def add_house():
+    return dict()
+
+def people():
+    username = request.args(0) #request the username of the person
+    person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
+    house_list = ''
+
+    return dict(person = person, house_list = house_list)
 
 @cache.action()
 def download():

@@ -1,0 +1,7 @@
+{{('message' in globals())}}
+{{extend 'layout.html'}}
+
+<div>
+	{{=A('Create A New House', _class='btn', _href=URL('default', 'add_house', vars=dict(create='y')))}}
+	{{=A('Join An Existing House', _class='btn', _href=URL('default', 'add_house', vars=dict(join='y')))}}
+</div>

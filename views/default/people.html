@@ -1,0 +1,25 @@
+{{('message' in globals())}}
+{{extend 'layout.html'}}
+
+<div class='widget' id='profile_widget'>
+	<center>
+		<div id='profile_pic'></div>
+		<div class='username'>{{=person.first_name}} {{=person.last_name}}</div>
+	</center>
+	<div class='profile_content'>
+		<div class='house_group'>
+			<h2>Houses</h2>
+			Not part of a House. :(
+			<ul class='house_list'>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+		<div class='posts'>
+			<h2>Posts</h2>
+			No Posts. :(
+			<ul></ul>
+		</div>
+	</div>
+</div>
