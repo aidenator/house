@@ -61,12 +61,19 @@ def index2():
 
 @auth.requires_login()
 def add_house():
-    return dict()
+    creating = request.vars.action == 'create'
+    joining = request.vars.action == 'join'
+
+    form = SQLFORM.factory(db.house)
+    form.add_button('Go Back', URL('default', 'index'))
+
+    return dict(creating = creating, joining = joining, form = form)
 
 def people():
     username = request.args(0) #request the username of the person
     person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
     house_list = ''
+    house_list = db(db.users.name == person.username).select(orderby=db.users.name)
 
     return dict(person = person, house_list = house_list)
 

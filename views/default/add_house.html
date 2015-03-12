@@ -1,7 +1,19 @@
 {{('message' in globals())}}
 {{extend 'layout.html'}}
 
-<div>
-	{{=A('Create A New House', _class='btn', _href=URL('default', 'add_house', vars=dict(create='y')))}}
-	{{=A('Join An Existing House', _class='btn', _href=URL('default', 'add_house', vars=dict(join='y')))}}
-</div>
+{{if not (joining or creating):}}
+	<div>
+		{{=A('Create A New House', _class='btn', _href=URL('default', 'add_house', vars=dict(action='create')))}}
+		{{=A('Join An Existing House', _class='btn', _href=URL('default', 'add_house', vars=dict(action='join')))}}
+	</div>
+
+	<!--JOINING-->
+	{{elif joining:}}
+	<div>Hey I'm Joining!</div>
+
+	<!--CREATING-->
+	{{elif creating:}}
+	<div>Hey I'm creating!</div>
+	{{=form}}
+
+{{pass}}

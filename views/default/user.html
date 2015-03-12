@@ -1,6 +1,19 @@
 {{extend 'layout.html'}}
 
-<h2>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
+<!--THE FOLLOWING IS FOR SPECIFIC STYLING FOR THE LOGIN PAGE-->
+{{block head}}
+<style>
+label { display: none; }
+label#auth_user_remember_me__label { display: inline-block; }
+label#auth_user_password_two__label { display: inline-block;}
+td.w2p_fl {display: none;}
+#auth_user_remember_me__row .w2p_fl {display: inline-block;}
+#web2py_user_form td {position: inherit; display: inline-block;}
+</style>
+{{end}}
+
+<center>
+<h2 id='login_header'>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
 <div id="web2py_user_form">
 {{
 if request.args(0)=='login' and not session.auth_2_factor_user:
@@ -14,13 +27,15 @@ pass
 =form
 }}
 </div>
+</center>
 
-<script language="javascript"><!--
-jQuery("#web2py_user_form input:visible:enabled:first").focus();
+<script language="javascript">
+<!-- 
+	jQuery("#web2py_user_form input:visible:enabled:first").focus();
 {{if request.args(0)=='register':}}
     web2py_validate_entropy(jQuery('#auth_user_password'),100);
 {{elif request.args(0) in ('change_password','reset_password'):}}
     web2py_validate_entropy(jQuery('#no_table_new_password'),100);
 {{pass}}
-//--></script>
+--></script>
 

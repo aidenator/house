@@ -30,27 +30,31 @@
     <div class='wrapper'>
       <div class='wallpaper'><div class='over'><div class='greetings'>{{=today}}</div></div></div>
       <div class='house_content'>
+
+        <!--DISPLAYS HOUSES THAT USER IS A MEMBER OF-->
         <div class='house_tabs'>
           {{if len(listofhouses) == 0:}}
-          <ul>
-            <li id='focus'>No Houses</li>
-          </ul>
+            <ul>
+              <li id='focus'>No Houses</li>
+            </ul>
           {{else:}}
-          <ul>
-            <li id='focus'>test house</li>
-            <li>test house 2</li>
-            <li>test house 3</li>
-            <li>test house 4</li>
-            <li>test house 5</li>
-          </ul>
+            <ul>
+            {{for h in listofhouses:}}
+              <li class='house_list_title'>{{h.title}}</li>
+            {{pass}}
+            </ul>
           {{pass}}
+
           {{=A('+', DIV('New House', _class='add_message'), _id='add_house',_href=URL('default', 'add_house'))}}
-        </div>
+        </div> <!--END OF DISPLAY HOUSES-->
+
+        <!--CONTENT FOR THE HOUSE-->
         {{if len(listofhouses) == 0:}}
         <div id='alone'>There's nothing here :( <p>Try Adding A New House</p></div>
         {{else:}}
-        <div>There's Stuff here! :D</div>
+        <div>There's something here!</div>
         {{pass}}
+        <!--END OF CONTENT-->
       </div>
     </div>
   </div>
