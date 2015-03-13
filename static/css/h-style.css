@@ -205,6 +205,8 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 			}
 
 			.category .item {
+				color: inherit;
+				display: block;
 				padding: 5px 0px 5px 0px;
 				font-size: 0.8em;
 				transition: background-color 300ms cubic-bezier(.55,0,.1,1) 0s, color 500ms cubic-bezier(.55,0,.1,1) 0s;
@@ -214,6 +216,7 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 				background-color: #34495e;
 				color: #1abc9c;
 				cursor: pointer;
+				text-decoration: none;
 			}
 
 			.category .mate-list {
@@ -292,6 +295,7 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 			.house_content {
 				background-color: white;
 				width: 100%;
+				height: 89.2%;
 			}
 
 		.house_tabs {
@@ -378,7 +382,7 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 			#alone {
 				font-size: 4em;
 				width: 100%;
-				height: inherit;
+				height: 50%;
 				text-align: center;
 				padding-top: 300px;
 				color: #bdc3c7;
@@ -459,4 +463,34 @@ FOOTER STYLING
 
 footer {
 	color: rgba(0,0,0,0.5);
+}
+
+/*****************************************************
+					INBOX STYLE
+******************************************************/
+#convo_list_bar {
+	float: left;
+	background-color: grey;
+	height: 100%;
+	display: inline-block;
+	width: 30%;
+	overflow: auto;
+}
+
+#convo_messages {
+	display: inline-block;
+	width: 70%;
+}
+
+#messages, #participants{
+	list-style: none;
+	margin-left: 0px;
+}
+.thumbnail {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border-radius: 40px;
+	background-color: grey;
+	margin: 5px auto;
 }
