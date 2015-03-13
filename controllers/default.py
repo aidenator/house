@@ -22,7 +22,7 @@ def house():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    ##response.flash = T(datetime_convert())
+    #response.flash = T('Hiiiiiii')
     listofhouses = ""
     listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
     house_name = request.args(0) or ''
@@ -43,17 +43,6 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    db.auth_user.first_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='First Name')
-    db.auth_user.last_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Last Name')
-    db.auth_user.email.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Email Address')
-    db.auth_user.username.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Username')
-    db.auth_user.password.widget = lambda f,v: SQLFORM.widgets.password.widget(f, v,
-    _placeholder='Password')
-
     return dict(form=auth())
 
 def index2():

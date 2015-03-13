@@ -5,30 +5,56 @@
 <style>
 label { display: none; }
 label#auth_user_remember_me__label { display: inline-block; }
-label#auth_user_password_two__label { display: inline-block;}
 td.w2p_fl {display: none;}
 #auth_user_remember_me__row .w2p_fl {display: inline-block;}
 #web2py_user_form td {position: inherit; display: inline-block;}
+.container {margin-right: 0px; margin-left: 0px; width: 100%; color: white;}
+#main {width: 100%; margin-right: auto; margin-left: auto; padding-top: 0px;}
+.span12 {width: 100%;}
+h1 {padding-top: 70px; margin-top: 0px; font-size: 5em;}
+.navbar-s .navbar-inner {display: none;}
+.btn {
+	padding: 3px 25px 3px 25px; margin-right: 5px; margin-left: 5px;
+	background-image: none; background-color: #2ecc71; color: white;
+	border: 0px solid #000000; border-radius: 4px; text-shadow: none;
+	transition: background-color 300ms cubic-bezier(.55,0,.1,1) 0s, color 500ms cubic-bezier(.55,0,.1,1) 0s;
+}
+
+.btn:hover {
+	background-color: #27AE60;
+	color: orange;
+}
+
 </style>
 {{end}}
 
-<center>
-<h2 id='login_header'>{{=T( request.args(0).replace('_',' ').capitalize() )}}</h2>
-<div id="web2py_user_form">
-{{
-if request.args(0)=='login' and not session.auth_2_factor_user:
-    if not 'register' in auth.settings.actions_disabled:
-        form.add_button(T('Register'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn')
-    pass
-    if not 'request_reset_password' in auth.settings.actions_disabled:
-        form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn')
-    pass
-pass
-=form
-}}
+<div id='login_page'>
+	<center>
+		<img id='login_img'></img>
+		<div id='login_wrapper'></div>
+		<h1>Welcome to HOUSE</h1>
+		<h2 id='login_header'>{{=T( request.args(0).replace('_',' ').capitalize() )}} to enter</h2>
+		<div id="web2py_user_form">
+		{{
+		if request.args(0)=='login' and not session.auth_2_factor_user:
+		    if not 'register' in auth.settings.actions_disabled:
+		        form.add_button(T('Register'),URL(args='register', vars={'_next': request.vars._next} if request.vars._next else None),_class='btn')
+		    pass
+		    if not 'request_reset_password' in auth.settings.actions_disabled:
+		        form.add_button(T('Lost Password'),URL(args='request_reset_password'),_class='btn')
+		    pass
+		pass
+		=form
+		}}
+		</div>
+	</center>
+	<div id='description'>
+		<center>
+			<h2>What is House?</h2>
+			<h3>Scheduling, Task Management, Message Center for your house!</h3>
+		</center>
+	</div>
 </div>
-</center>
-
 <script language="javascript">
 <!-- 
 	jQuery("#web2py_user_form input:visible:enabled:first").focus();
