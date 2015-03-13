@@ -15,16 +15,10 @@ def index():
 
 @auth.requires_login()
 def house():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
-
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
     ##response.flash = T(datetime_convert())
     listofhouses = ""
-    listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
+    listofhouses = db(db.users.name == auth.user.username).select(orderby=db.users.name)
+    logger.info("List of houses: %r" % listofhouses)
     house_name = request.args(0) or ''
     return dict(today = today_string(), listofhouses = listofhouses)
 
@@ -64,13 +58,23 @@ def add_house():
     creating = request.vars.action == 'create'
     joining = request.vars.action == 'join'
 
-    form = SQLFORM.factory(db.house)
+    form = SQLFORM.factory(db.house,
+                           fields=['title','user1','user2','user3','user4','user5','image'],
+                           )
     form.add_button('Go Back', URL('default', 'index'))
+    if form.process().accepted:
+        session.flash = 'House Created!'
+        db.house.insert(title=form.vars.title, user1=form.vars.user1, user2=form.vars.user2, user3=form.vars.user3, user4=form.vars.user4, user5=form.vars.user5, image=form.vars.image)
+        redirect(URL('default', 'house'))
+    elif form.errors:
+        response.flash = 'form has errors'
 
     return dict(creating = creating, joining = joining, form = form)
 
 def people():
     username = request.args(0) #request the username of the person
+    if username == None: #In case someone doesn't include a name in the URL
+        redirect(URL('default', 'index')) 
     person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
     house_list = ''
     house_list = db(db.users.name == person.username).select(orderby=db.users.name)
