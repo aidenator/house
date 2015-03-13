@@ -16,6 +16,7 @@ def index():
 @auth.requires_login()
 def house():
     ##response.flash = T(datetime_convert())
+
     listofhouses = ""
     listofhouses = db(db.users.name == auth.user.username).select(orderby=db.users.name)
     logger.info("List of houses: %r" % listofhouses)
@@ -37,17 +38,6 @@ def user():
         @auth.requires_permission('read','table name',record_id)
     to decorate functions that need access control
     """
-    db.auth_user.first_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='First Name')
-    db.auth_user.last_name.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Last Name')
-    db.auth_user.email.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Email Address')
-    db.auth_user.username.widget = lambda f,v: SQLFORM.widgets.string.widget(f, v,
-    _placeholder='Username')
-    db.auth_user.password.widget = lambda f,v: SQLFORM.widgets.password.widget(f, v,
-    _placeholder='Password')
-
     return dict(form=auth())
 
 def index2():
