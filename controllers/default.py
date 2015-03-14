@@ -66,10 +66,6 @@ def people():
 
     return dict(person = person, house_list = house_list)
 
-@auth.requires_login()
-def inbox():
-    return dict(today = today_string())
-
 @cache.action()
 def download():
     """
