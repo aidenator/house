@@ -1,28 +1,36 @@
 {{('message' in globals())}}
 {{extend 'layout.html'}}
 
-<div class='widget' id='profile_widget'>
+<div class='widget' id='profile_widget'>	
 	<center>
-		<div id='profile_pic'></div>
+		<div><img id="profile_pic"src="https://pbs.twimg.com/profile_images/2200656916/auntieJAY.jpg"></div>
 		<div class='username'>{{=person.first_name}} {{=person.last_name}}</div>
 	</center>
 	<div class='profile_content'>
-		<div class='house_group'>
-			<h2>Houses</h2>
+		<div class='house_group center'>
+			<b><h2 class="center">House</h2></b>
 			{{if len(house_list) == 0:}}
-				<div>Not part of a House. :(<div>
+				<div>Not part of a House. :(</div>
 			{{else:}}
 				<ul class='house_list'>
 					{{for h in house_list:}}
-						<li>{{h.title}}</li>
+						<li>
+							<div>
+							   {{=A( XML( '<img src="http://www.zenimax.com/jpn/fallout3/images/avators/100x100falloutav-vb.gif">'), _href=URL('default','house') ) }}
+							   <br>
+							   {{=h.house}}
+							</div>
+						</li>
 					{{pass}}
 				</ul>
 			{{pass}}
 		</div>
+		<!-- I don't think we're gonna have posts
 		<div class='posts'>
 			<h2>Posts</h2>
 			No Posts. :(
 			<ul></ul>
-		</div>
+		</div> -->
 	</div>
+
 </div>

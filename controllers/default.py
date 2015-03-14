@@ -16,12 +16,21 @@ def index():
 @auth.requires_login()
 def house():
     ##response.flash = T(datetime_convert())
+    peopledb = db(db.users.name == auth.user.username).select() #See if they're registered in users db yet
+    if( len(peopledb) == 0 ):
+        db.users.insert(name=auth.user.username) #If not, insert them
 
+    peopledb = db(db.users.name == auth.user.username).select().first() # The relevant user we need
     listofhouses = ""
-    listofhouses = db(db.users.name == auth.user.username).select(orderby=db.users.name)
-    logger.info("List of houses: %r" % listofhouses)
+    listofhouses = db(db.house.title == peopledb.house).select().first() if peopledb.house != None else None
+    '''if len(listofhouses) > 0:
+        for h in listofhouses:
+            logger.info("Listofhouses: %r" % h)'''
+    pic = peopledb.user_pic if peopledb.user_pic != None else ""
+    users = db(db.users.house == listofhouses.title).select()
+    #pic = pic.image
     house_name = request.args(0) or ''
-    return dict(today = today_string(), listofhouses = listofhouses)
+    return dict(today = today_string(), listofhouses = listofhouses, pic = pic, users=users)
 
 def user():
     """
@@ -49,12 +58,18 @@ def add_house():
     joining = request.vars.action == 'join'
 
     form = SQLFORM.factory(db.house,
-                           fields=['title','user1','user2','user3','user4','user5','image'],
+                           fields=['title', 'image'],                          
                            )
     form.add_button('Go Back', URL('default', 'index'))
     if form.process().accepted:
+        check = db(db.house.title == form.vars.title).select()
+        if(len(check) > 0): #Check if house exists, if so, skip making it and redirect
+            session.flash = "House already exists!"
+            redirect(URL('default','house'))
+        db.house.insert(title=form.vars.title, image=form.vars.image)
+        db(db.users.name == auth.user.username).update(house=form.vars.title)
+        db.groups.update_or_insert(housename=form.vars.title, username=auth.user.username)
         session.flash = 'House Created!'
-        db.house.insert(title=form.vars.title, user1=form.vars.user1, user2=form.vars.user2, user3=form.vars.user3, user4=form.vars.user4, user5=form.vars.user5, image=form.vars.image)
         redirect(URL('default', 'house'))
     elif form.errors:
         response.flash = 'form has errors'
@@ -66,9 +81,15 @@ def people():
     if username == None: #In case someone doesn't include a name in the URL
         redirect(URL('default', 'index')) 
     person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
+    if person == None:
+        session.flash = 'test'
+        redirect(URL('default','index'))
+        return dict(person = None, house_list= [])
     house_list = ''
     house_list = db(db.users.name == person.username).select(orderby=db.users.name)
-
+    if len(house_list) > 0:
+        for h in house_list:
+            logger.info("house_list: %r" % h)
     return dict(person = person, house_list = house_list)
 
 @cache.action()

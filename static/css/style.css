@@ -1,3 +1,17 @@
 h2{
 	color:white;
 }
+.nav-tabs li{
+	padding-bottom: 9px;
+	padding-right: 0px;
+	min-width: 40px;
+}
+
+.vcenter {
+   padding-top: 6px;
+   padding-right: 5px;
+}
+
+.username a{
+	font-size: 20px;
+}
