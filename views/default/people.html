@@ -1,28 +1,36 @@
 {{('message' in globals())}}
 {{extend 'layout.html'}}
 
-<div class='widget' id='profile_widget'>
+<div class='widget' id='profile_widget'>	
 	<center>
-		<div id='profile_pic'></div>
+		{{if user.user_pic != None:}}
+		<div id=""><img id="profile_pic"src="{{=URL('download',args=user.user_pic)}}"></div>
+		{{else:}}
+		<div><img id="profile_pic"src="http://shanecradock.com/wp-content/uploads/2014/12/Question-mark.jpg"></div>
+		{{pass}}
 		<div class='username'>{{=person.first_name}} {{=person.last_name}}</div>
 	</center>
 	<div class='profile_content'>
-		<div class='house_group'>
-			<h2>Houses</h2>
-			{{if len(house_list) == 0:}}
-				<div>Not part of a House. :(<div>
+		<div class='house_group center'>
+			<b><h2 class="center">House</h2></b>
+			{{if house == None:}}
+				<div>Not part of a House. :(</div>
 			{{else:}}
-				<ul class='house_list'>
-					{{for h in house_list:}}
-						<li>{{h.title}}</li>
-					{{pass}}
-				</ul>
+				<div class='center'>
+					<div>
+					   <img id="profile_pic_small" src="{{=URL('download',args=house.image)}}">
+					   <br>
+					   {{=house.title}}
+					</div>
+				</div>
 			{{pass}}
 		</div>
+		<!-- I don't think we're gonna have posts
 		<div class='posts'>
 			<h2>Posts</h2>
 			No Posts. :(
 			<ul></ul>
-		</div>
+		</div> -->
 	</div>
+
 </div>

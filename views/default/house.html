@@ -4,7 +4,13 @@
   <div class='left-sidebar'>
     <div class='sidebar-content'>
       <div class='user-profile'>
-        {{=A('',DIV('', _class='user-img'), _href=URL('default', 'people', args=[auth.user.username]))}}
+        <!-- {{=A('',DIV('', _class='user-img'), _href=URL('default', 'people', args=[auth.user.username]))}} -->
+        <div class="user-img">
+          {{if thehouse != None:}}
+          <img src="{{=URL('download',args=thehouse.image)}}">
+          {{pass}}
+        </div>
+         
       </div>
       <div class='menu'>
         <ul class='category'>
@@ -28,34 +34,57 @@
   </div>
   <div class='right-content'>
     <div class='wrapper'>
-      <div class='wallpaper'><div class='over'><div class='greetings'>{{=today}}</div></div></div>
+    {{if thehouse != None:}}
+      <div class='wallpaper'><div class='over'><div class='greetings'>{{=thehouse.title.title()}}</div></div></div>
+    {{else:}}
+      <div class='wallpaper'><div class='over'><div class='greetings'>Not in a House yet</div></div></div>
+    {{pass}}
       <div class='house_content'>
 
         <!--DISPLAYS HOUSES THAT USER IS A MEMBER OF-->
         <div class='house_tabs'>
-          {{if len(listofhouses) == 0:}}
+          {{if thehouse == None:}}
             <ul>
               <li id='focus'>No Houses</li>
             </ul>
+            {{=A('+', DIV('New House', _class='add_message'), _id='add_house',_href=URL('default', 'add_house'))}}
           {{else:}}
-            <ul>
-            {{for h in listofhouses:}}
-              <li class='house_list_title'>{{h.title}}</li>
-            {{pass}}
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
+              <li role="presentation"><a href="#tasks" aria-controls="tasks" role="tab" data-toggle="tab">Tasks</a></li>
+              <li role="presentation"><a href="#rent" aria-controls="rent" role="tab" data-toggle="tab">Rent</a></li>
             </ul>
-          {{pass}}
-
-          {{=A('+', DIV('New House', _class='add_message'), _id='add_house',_href=URL('default', 'add_house'))}}
+          {{pass}}<!-- Else Pass -->
+          {{pass}}<!-- If   Pass -->      
+          <h4 class="vcenter" style="float:right;">{{=today}}</h4>
         </div> <!--END OF DISPLAY HOUSES-->
 
         <!--CONTENT FOR THE HOUSE-->
-        {{if len(listofhouses) == 0:}}
+        {{if thehouse == None:}}
         <div id='alone'>There's nothing here :( <p>Try Adding A New House</p></div>
         {{else:}}
-        <div>There's something here!</div>
+
         {{pass}}
         <!--END OF CONTENT-->
+      </div><!-- END HOUSE_CONTENT -->
+
+      <div class="tab-content" style="overflow:visible;">
+        <div role="tabpanel" class="tab-pane active center" id="members">
+          {{if len(users) == 0:}}
+            <div class="house_body"></div><!-- DO nothing here because not in a house -->
+          {{else:}}
+            {{for u in users:}}
+              <div class="house_list">
+                 <div class=><img id="profile_pic"src="{{=URL('download',args=u.user_pic)}}"></div>
+                 <div class="center username">{{=A(u.name.title(), _href=URL('default','people',args=[u.name])) }}</div>
+              </div>
+            {{pass}}
+          {{pass}}
+        </div>
+        <div role="tabpanel" class="tab-pane center" id="tasks">2</div>
+        <div role="tabpanel" class="tab-pane center" id="rent">3</div>
       </div>
-    </div>
+
+    </div><!--END WRAPPER -->
   </div>
 </div>

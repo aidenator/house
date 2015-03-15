@@ -15,18 +15,23 @@ def index():
 
 @auth.requires_login()
 def house():
-    """
-    example action using the internationalization operator T and flash
-    rendered by views/default/index.html or views/generic.html
+    users = []
+    thehouse = None
+    peopledb = db(db.users.name == auth.user.username).select() #See if they're registered in users db yet
+    if( len(peopledb) == 0 ):
+        db.users.insert(name=auth.user.username) #If not, insert them
 
-    if you need a simple wiki simply replace the two lines below with:
-    return auth.wiki()
-    """
-    #response.flash = T('Hiiiiiii')
-    listofhouses = ""
-    listofhouses = db(db.users.name == auth.user).select(orderby=db.users.name)
+    peopledb = db(db.users.name == auth.user.username).select().first() # The relevant user we need
+    #logger.info("peopledb %r" % peopledb)
+
+    if peopledb.house != None:
+        users = db(db.users.house == peopledb.house).select()
+        thehouse = db(db.house.title == peopledb.house).select().first()
+
+    pic = peopledb.user_pic if peopledb.user_pic != None else ""
+   
     house_name = request.args(0) or ''
-    return dict(today = today_string(), listofhouses = listofhouses)
+    return dict(today = today_string(), pic = pic, users=users, thehouse = thehouse)
 
 def user():
     """
@@ -53,18 +58,43 @@ def add_house():
     creating = request.vars.action == 'create'
     joining = request.vars.action == 'join'
 
-    form = SQLFORM.factory(db.house)
+    form = SQLFORM.factory(db.house,
+                           fields=['title', 'image'],
+                           upload=URL('default','download'),                          
+                           )
     form.add_button('Go Back', URL('default', 'index'))
+    if form.process().accepted:
+        check = db(db.house.title == form.vars.title).select()
+        if(len(check) > 0): #Check if house exists, if so, skip making it and redirect
+            session.flash = "House already exists!"
+            redirect(URL('default','house'))
+        db.house.insert(title=form.vars.title, image=form.vars.image)
+        #Check if person is in Users DB, if so, update their house info, if not, add them with their new house
+        db.users.update_or_insert(db.users.name == auth.user.username, name=auth.user.username, house=form.vars.title)
+        session.flash = 'House Created!'
+        redirect(URL('default', 'house'))
+    elif form.errors:
+        response.flash = 'form has errors'
+
+    joinform = SQLFORM
 
     return dict(creating = creating, joining = joining, form = form)
 
 def people():
     username = request.args(0) #request the username of the person
+    if username == None: #In case someone doesn't include a name in the URL
+        redirect(URL('default', 'index')) 
     person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
-    house_list = ''
-    house_list = db(db.users.name == person.username).select(orderby=db.users.name)
+    if person == None:
+        session.flash = 'test'
+        redirect(URL('default','index'))
+        return dict(person = None, house = None)
+    user = db(db.users.name == person.username).select().first()
+    logger.info("USER: %r" % user)
+    logger.info("PERSON: %r" % person)
+    house = db(db.house.title == user.house).select().first()
 
-    return dict(person = person, house_list = house_list)
+    return dict(person = person, user=user, house = house)
 
 @auth.requires_login()
 def inbox():
