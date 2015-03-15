@@ -63,27 +63,32 @@
         {{if thehouse == None:}}
         <div id='alone'>There's nothing here :( <p>Try Adding A New House</p></div>
         {{else:}}
+        <div class='tab-content' style="overflow:visible;">
 
+          <!--MEMBERS TAB-->
+          <div role='tabpanel' class='tab-pane active center' id='members'>
+            {{if len(users) == 0:}}
+              <div class="house_body"></div><!-- DO nothing here because not in a house -->
+            {{else:}}
+              {{for u in users:}}
+                <div class="house_list">
+                  <div class=''><img id="profile_pic"src="{{=URL('download',args=u.user_pic)}}"></div>
+                  <div class="center username">{{=A(u.name.title(), _href=URL('default','people',args=[u.name]))}}</div>
+                </div>
+              {{pass}}
+            {{pass}}
+          </div>
+
+          <!--TASK TAB-->
+          <div role="tabpanel" class="tab-pane center" id="tasks">2</div>
+
+          <!--RENT TAB-->
+          <div role="tabpanel" class="tab-pane center" id="rent">3</div>
+
+        </div>
         {{pass}}
         <!--END OF CONTENT-->
       </div><!-- END HOUSE_CONTENT -->
-
-      <div class="tab-content" style="overflow:visible;">
-        <div role="tabpanel" class="tab-pane active center" id="members">
-          {{if len(users) == 0:}}
-            <div class="house_body"></div><!-- DO nothing here because not in a house -->
-          {{else:}}
-            {{for u in users:}}
-              <div class="house_list">
-                 <div class=><img id="profile_pic"src="{{=URL('download',args=u.user_pic)}}"></div>
-                 <div class="center username">{{=A(u.name.title(), _href=URL('default','people',args=[u.name])) }}</div>
-              </div>
-            {{pass}}
-          {{pass}}
-        </div>
-        <div role="tabpanel" class="tab-pane center" id="tasks">2</div>
-        <div role="tabpanel" class="tab-pane center" id="rent">3</div>
-      </div>
 
     </div><!--END WRAPPER -->
   </div>
