@@ -19,9 +19,13 @@ def house():
     thehouse = None
     this_username = auth.user.username
     user_db = db(db.user_list.person == auth.user).select()
+    user = db(db.users.name == auth.user.username).select()
 
     if( len(user_db) == 0 ):
         db.user_list.insert(person = auth.user)
+
+    if( len(user) == 0 ):
+        db.users.insert(name = auth.user.username)
 
     this_user = db(db.user_list.person == auth.user).select().first()
     this_pic = this_user.pic if this_user.pic != None else ""
@@ -35,7 +39,22 @@ def house():
         this_house = None
         housemates = None
 
-    return dict(today = today_string(), pic = this_pic, users=housemates, thehouse = this_house)
+    #SETTINGS TAB CODE ---------------------
+    record = db(db.user_list.person == auth.user).select().first()
+    settingsform = SQLFORM(db.user_list, 
+                           record = record,
+                           upload=URL('download'),
+                           )
+
+    if settingsform.process().accepted:
+        response.flash = "User settings saved!"
+        redirect(URL('default', 'house'))
+
+    elif settingsform.errors:
+        response.flash = 'form has errors'
+
+
+    return dict(today = today_string(), pic = this_pic, users=housemates, thehouse = this_house, settingsform = settingsform)
 
 def user():
     """
@@ -59,6 +78,12 @@ def add_house():
     creating = request.vars.action == 'create'
     joining = request.vars.action == 'join'
     join_house_id = request.vars.houseID
+    joinform = ""
+
+    #JOINING FORM CODE ----------------------------------------------
+    logger.info("MADE IT HERE.")
+
+    
 
     if joining and join_house_id != None:
         join_house = db(db.house.id == join_house_id).select().first()
@@ -66,7 +91,27 @@ def add_house():
         session.flash = 'House Joined!'
         redirect(URL('default', 'house'))
 
+    elif joining and join_house_id == None:
+        record = db(db.user_list.person == auth.user).select().first()
+        joinform = SQLFORM(db.user_list,
+                           record = record,
+                           fields=['house'],
+                          )
+        if joinform.process().accepted:
+            response.flash = "Joined house successfully!"
+            redirect(URL('default','house'))
+        elif joinform.errors:
+            response.flash = 'form has errors'
+            """checkhouse = db(db.house.id == joinform.vars.house).select()
 
+            if len(checkhouse) <= 0:
+                response.flash = "This house doesn't exist. You can create it though."
+                redirect(URL('default','house'))
+
+            db.user_list.update(db.user_list.person == auth.user, house = joinform.vars.house)"""
+
+
+    #CREATING FORM CODE  --------------------------------------------
     form = SQLFORM( db.house,
                     fields=['title', 'image'],
                     upload=URL('download'),                          
@@ -88,7 +133,7 @@ def add_house():
     elif form.errors:
         response.flash = 'form has errors'
 
-    return dict(creating = creating, joining = joining, form = form)
+    return dict(creating = creating, joining = joining, form = form, joinform = joinform)
 
 def people():
     username = request.args(0) #request the username of the person

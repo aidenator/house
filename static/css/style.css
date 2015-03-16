@@ -15,3 +15,30 @@ h2{
 .username a{
 	font-size: 20px;
 }
+
+.formdivouter{
+	width: 100%;
+	
+}
+
+.formdivinner{
+	width: 500px;
+	display: inline-block;
+	padding-top:20px;
+}
+
+.house_img{
+	background-color: grey;
+	height: 70px;
+	width: 70px;
+	display: inline-block;
+	border-radius: 70px;
+	box-shadow: 0px 0px 1px rgba(0,0,0,0.4);
+	margin-top: 8px;
+	margin-bottom: 7px;
+	max-width: inherit;
+}
+
+.user-profile{
+	padding: 0px;
+}

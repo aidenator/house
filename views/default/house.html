@@ -3,13 +3,13 @@
 <div class='widget'>
   <div class='left-sidebar'>
     <div class='sidebar-content'>
-      <div class='user-profile'>
+      <div class='user-profile center'>
         <!-- {{=A('',DIV('', _class='user-img'), _href=URL('default', 'people', args=[auth.user.username]))}} -->
-        <div class="user-img">
+
           {{if thehouse != None:}}
-          <img src="{{=URL('download',args=thehouse.image)}}">
+          <img class="house_img" src="{{=URL('download',args=thehouse.image)}}">
           {{pass}}
-        </div>
+
          
       </div>
       <div class='menu'>
@@ -35,7 +35,7 @@
   <div class='right-content'>
     <div class='wrapper'>
     {{if thehouse != None:}}
-      <div class='wallpaper'><div class='over'><div class='greetings'>{{=thehouse.title.title()}}</div></div></div>
+      <div class='wallpaper'><div class='over'><div class='greetings'>{{=thehouse.title.title()}} - ID: {{=thehouse.id}}</div></div></div>
     {{else:}}
       <div class='wallpaper'><div class='over'><div class='greetings'>Not in a House yet</div></div></div>
     {{pass}}
@@ -71,14 +71,20 @@
             {{if len(users) == 0:}}
               <div class="house_body"></div><!-- DO nothing here because not in a house -->
             {{else:}}
+            <div class="center" style="width:100%;">
               {{for u in users:}}
-                <div class="house_list">
-                  <div class=''><img id="profile_pic"src="{{=URL('download',args=u.pic)}}"></div>
+                <div style="width:200px;display:inline-block;" class="">
+                {{if u.pic != None:}}
+                  <img id="profile_pic"src="{{=URL('download',args=u.pic)}}">
+                {{else:}}
+                  <img id="profile_pic"src="http://emblemsbf.com/img/11864.jpg">
+                {{pass}}
                   {{full_name = u.person.first_name + ' ' + u.person.last_name}}
                   <div class="center username">{{=A(full_name.title(), _href=URL('default','people',args=[u.person.username]))}}</div>
                 </div>
               {{pass}}
-              <div>Invite MORE into your house by sending them this link:</div>
+            </div>
+              <div style="padding-top:10px;">Invite MORE into your house by sending them this link:</div>
               <div>{{=URL('default','add_house', vars=dict(action='join', houseID=thehouse.id), host=True, scheme=True)}}</div>
 
             {{pass}}
@@ -96,7 +102,13 @@
           <div role="tabpanel" class="tab-pane center" id="rent">3</div>
 
           <!--HOUSE SETTINGS TAB-->
-          <div role="tabpanel" class="tab-pane center" id="settings"></div>
+          <div role="tabpanel" class="tab-pane center" id="settings">
+            <div class="formdivouter center">
+              <div class="formdivinner">
+                {{=settingsform}}
+              </div>
+            </div>
+          </div>
 
         </div>
         {{pass}}
