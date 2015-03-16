@@ -1,0 +1,82 @@
+{{left_sidebar_enabled,right_sidebar_enabled=False,('message' in globals())}}
+{{extend 'layout.html'}}
+
+<div class='widget'>
+  <div class='left-sidebar'>
+    <div class='sidebar-content'>
+      <div class='user-profile'>
+        {{=A('',DIV('', _class='user-img'), _href=URL('default', 'people', args=[auth.user.username]))}}
+      </div>
+      <div class='menu'>
+        <ul class='category'>
+          <li class='head'>Welcome, {{=auth.user.first_name}}</li>
+          <li class='item'><span class='icon-white icon-ok glyphicon glyphicon-ok'></span><span>My Tasks</span></li>
+          {{=A('',SPAN('', _class='icon-white icon-envelope glyphicon glyphicon-envelope'), SPAN('Messages'), _class='item',_href=URL('default', 'inbox'))}}
+        </ul>
+
+        <ul class='category'>
+          <li class='head'>My House</li>
+          <li class='item'><span class='icon-white icon-home glyphicon glyphicon-home'></span><span>My House</span></li>
+          <li class='item'><span class='icon-white icon-pencil glyphicon glyphicon-pencil'></span><span>Edit Home</span></li>
+        </ul>
+
+        <ul class='category'>
+          <li class='head'></li>
+          <li class='item'><span class='icon-white icon-cog glyphicon glyphicon-cog'></span><span>Settings</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class='right-content'>
+    <div class='wrapper'>
+      <div class='wallpaper'><div class='over'><div class='greetings'>INBOX</div></div></div>
+      <div class='house_content'>
+        {{=A('+ Start A New Conversation', _id='add_msg',_href=URL('default', 'inbox',vars=dict(action='start')))}}
+
+        {{if request.vars.action == 'start':}}
+          {{=form}}
+        {{else:}}
+          <ul id='convo_list'>
+            {{for conversation in conversation_list:}}
+              <li><a href="#{{=conversation.id}}" data-toggle='tab'>
+                <h4>{{=conversation.subject}}</h4>
+                <br>
+                <!--Look for a person in the user_list that matches group-->
+                {{conversation_group = db(db.user_list.house == conversation.house).select()}}
+                {{for people in conversation_group:}}
+                  {{logger.info("people.person %r " % people.person)}}
+                  {{peep = db(db.auth_user.id == people.person).select().first()}}
+                  <sub>{{=peep.first_name}} {{=peep.last_name}}, </sub>
+                {{pass}}
+                <br><sub>Most Recent Post: {{=conversation.recent_post}}</sub>
+              </a></li>
+            {{pass}}
+          </ul>
+          {{for conversation in conversation_list:}}
+            <div class='tab-pane messenger' id="{{=conversation.id}}">
+              
+                <ul class='messages'>
+                  {{m_text_list = db(db.conversation_message.conversation_id == conversation.id).select(orderby=db.conversation_message.date_posted)}}
+                  {{for m_text in m_text_list:}}
+                    <li><div class='message-text'>{{=m_text.conversation_text}}</div><span class='message-image'><img src=""></span></li>
+                  {{pass}}
+                </ul>
+
+                {{new_message_form = SQLFORM.factory( Field('text_message', 'text'), Field('conversation_id', db.conversation))}}
+                {{if new_message_form.process().accepted:}}
+                    {{db.conversation_message.insert( conversation_text = new_message_form.vars.text_message, 
+                                                      date_posted = datetime.utcnow(),
+                                                      person_posting = auth.user,
+                                                      conversation_id = conversation.id
+                                                    )}}
+                    {{redirect(URL('default','inbox#' + str(conversation.id) ))}}
+                {{pass}}
+
+                {{=new_message_form}}
+            </div>
+          {{pass}}
+        {{pass}}
+      </div>
+    </div>
+  </div>
+</div>

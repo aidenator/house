@@ -16,7 +16,7 @@
         <ul class='category'>
           <li class='head'>Welcome, {{=auth.user.first_name}}</li>
           <li class='item'><span class='icon-white icon-ok glyphicon glyphicon-ok'></span><span>My Tasks</span></li>
-          <li class='item'><span class='icon-white icon-envelope glyphicon glyphicon-envelope'></span><span>Messages</span></li>
+          {{=A('',SPAN('', _class='icon-white icon-envelope glyphicon glyphicon-envelope'), SPAN('Messages'), _class='item',_href=URL('default', 'inbox'))}}
         </ul>
 
         <ul class='category'>
@@ -53,6 +53,7 @@
               <li role="presentation" class="active"><a href="#members" aria-controls="members" role="tab" data-toggle="tab">Members</a></li>
               <li role="presentation"><a href="#tasks" aria-controls="tasks" role="tab" data-toggle="tab">Tasks</a></li>
               <li role="presentation"><a href="#rent" aria-controls="rent" role="tab" data-toggle="tab">Rent</a></li>
+              <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
             </ul>
           {{pass}}<!-- Else Pass -->
           {{pass}}<!-- If   Pass -->      
@@ -63,27 +64,39 @@
         {{if thehouse == None:}}
         <div id='alone'>There's nothing here :( <p>Try Adding A New House</p></div>
         {{else:}}
+        <div class='tab-content' style="overflow:visible;">
 
+          <!--MEMBERS TAB-->
+          <div role='tabpanel' class='tab-pane active center' id='members'>
+            {{if len(users) == 0:}}
+              <div class="house_body"></div><!-- DO nothing here because not in a house -->
+            {{else:}}
+              {{for u in users:}}
+                <div class="house_list">
+                  <div class=''><img id="profile_pic"src="{{=URL('download',args=u.pic)}}"></div>
+                  {{full_name = u.person.first_name + ' ' + u.person.last_name}}
+                  <div class="center username">{{=A(full_name.title(), _href=URL('default','people',args=[u.person.username]))}}</div>
+                </div>
+              {{pass}}
+              <div>Invite MORE into your house by sending them this link:</div>
+              <div>{{=URL('default','add_house', vars=dict(action='join', houseID=thehouse.id), host=True, scheme=True)}}</div>
+
+            {{pass}}
+          </div>
+
+          <!--TASK TAB-->
+          <div role="tabpanel" class="tab-pane center" id="tasks">2</div>
+
+          <!--RENT TAB-->
+          <div role="tabpanel" class="tab-pane center" id="rent">3</div>
+
+          <!--HOUSE SETTINGS TAB-->
+          <div role="tabpanel" class="tab-pane center" id="settings"></div>
+
+        </div>
         {{pass}}
         <!--END OF CONTENT-->
       </div><!-- END HOUSE_CONTENT -->
-
-      <div class="tab-content" style="overflow:visible;">
-        <div role="tabpanel" class="tab-pane active center" id="members">
-          {{if len(users) == 0:}}
-            <div class="house_body"></div><!-- DO nothing here because not in a house -->
-          {{else:}}
-            {{for u in users:}}
-              <div class="house_list">
-                 <div class=><img id="profile_pic"src="{{=URL('download',args=u.user_pic)}}"></div>
-                 <div class="center username">{{=A(u.name.title(), _href=URL('default','people',args=[u.name])) }}</div>
-              </div>
-            {{pass}}
-          {{pass}}
-        </div>
-        <div role="tabpanel" class="tab-pane center" id="tasks">2</div>
-        <div role="tabpanel" class="tab-pane center" id="rent">3</div>
-      </div>
 
     </div><!--END WRAPPER -->
   </div>
