@@ -3,12 +3,12 @@
 
 <div class='widget' id='profile_widget'>	
 	<center>
-		{{if user.user_pic != None:}}
-		<div id=""><img id="profile_pic"src="{{=URL('download',args=user.user_pic)}}"></div>
+		{{if user.pic != None:}}
+		<div id=""><img id="profile_pic"src="{{=URL('download',args=user.pic)}}"></div>
 		{{else:}}
 		<div><img id="profile_pic"src="http://shanecradock.com/wp-content/uploads/2014/12/Question-mark.jpg"></div>
 		{{pass}}
-		<div class='username'>{{=person.first_name}} {{=person.last_name}}</div>
+		<div class='username'>{{=user.person.first_name}} {{=user.person.last_name}}</div>
 	</center>
 	<div class='profile_content'>
 		<div class='house_group center'>
@@ -25,12 +25,6 @@
 				</div>
 			{{pass}}
 		</div>
-		<!-- I don't think we're gonna have posts
-		<div class='posts'>
-			<h2>Posts</h2>
-			No Posts. :(
-			<ul></ul>
-		</div> -->
 	</div>
 
 </div>

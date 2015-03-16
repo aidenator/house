@@ -490,13 +490,39 @@ footer {
 /*****************************************************
 					INBOX STYLE
 ******************************************************/
-#convo_list_bar {
-	float: left;
-	background-color: grey;
-	height: 100%;
+#convo_list {
+	background-color: #ECF0F1;
+	height: 90%;
 	display: inline-block;
-	width: 30%;
+	width: 40%;
 	overflow: auto;
+	list-style: none;
+	margin: 0px 0px 0px 0px;
+}
+
+#convo_list li {
+	background-color: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 30px;
+	padding-right: 30px;
+
+}
+
+#convo_list li:hover {
+	background-color: white;
+	cursor: pointer;
+}
+
+#convo_list li h4 {
+	display: inline-block;
+}
+
+#convo_list li img {
+	background-color: grey;
+	width: 30px;
+	height: 30px;
+	display: inline-block;
 }
 
 #convo_messages {
@@ -516,3 +542,75 @@ footer {
 	background-color: grey;
 	margin: 5px auto;
 }
+
+#add_msg {
+		text-align: center;
+		font-weight: bold;
+		display: block;
+		background-color: #2ecc71;
+		color: white;
+		padding-left:20px;
+		padding-right:20px;
+		padding-top: 20px;
+		padding-bottom:20px;
+		z-index: 3000;
+	}
+
+				#add_msg:hover {
+					background-color: #27AE60;
+					cursor: pointer;
+					text-decoration: none;
+				}
+
+				#add_msg:active {
+					background-color: #27ae60;
+				}
+
+	.messenger {
+		display: inline-block;
+		float: right;
+		width: 60%;
+		height: 90%;
+	}
+
+	.messenger form {
+		margin-left: 20px;
+		margin-bottom: 0px;
+		height: 10%
+	}
+
+	.messenger form input {
+		width: 90%;
+		height: 100%;
+		overflow: auto;
+	}
+
+	.messages {
+		list-style: none;
+		overflow: auto;
+		height: 85%;
+	}
+
+	.messages li {
+		padding-top: 20px;
+		padding-bottom: 60px;
+	}
+
+	.messages .message-text {
+		display: inline-block;
+		float: left;
+		width: 300px;
+		padding-top: 20px;
+	}
+
+	.messages li img {
+		vertical-align: middle;
+		display: inline-block;
+		float: right;
+		height: 40px;
+		width: 40px;
+		margin-right: 30px;
+		background-color: grey;
+		vertical-align: middle;
+
+	}

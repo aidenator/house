@@ -17,21 +17,23 @@ def index():
 def house():
     users = []
     thehouse = None
-    peopledb = db(db.users.name == auth.user.username).select() #See if they're registered in users db yet
-    if( len(peopledb) == 0 ):
-        db.users.insert(name=auth.user.username) #If not, insert them
+    this_username = auth.user.username
+    user_db = db(db.user_list.person == auth.user).select()
 
-    peopledb = db(db.users.name == auth.user.username).select().first() # The relevant user we need
-    #logger.info("peopledb %r" % peopledb)
+    if( len(user_db) == 0 ):
+        db.user_list.insert(person = auth.user)
 
-    if peopledb.house != None:
-        users = db(db.users.house == peopledb.house).select()
-        thehouse = db(db.house.title == peopledb.house).select().first()
+    this_user = db(db.user_list.person == auth.user).select().first()
+    this_pic = this_user.pic if this_user.pic != None else ""
 
-    pic = peopledb.user_pic if peopledb.user_pic != None else ""
-   
-    house_name = request.args(0) or ''
-    return dict(today = today_string(), pic = pic, users=users, thehouse = thehouse)
+    if this_user.house != None:
+        this_house = this_user.house
+        housemates = db(db.user_list.house == this_house).select()
+    else:
+        this_house = None
+        housemates = None
+
+    return dict(today = today_string(), pic = this_pic, users=housemates, thehouse = this_house)
 
 def user():
     """
@@ -50,29 +52,37 @@ def user():
     """
     return dict(form=auth())
 
-def index2():
-    return dict()
-
 @auth.requires_login()
 def add_house():
     creating = request.vars.action == 'create'
     joining = request.vars.action == 'join'
+    join_house_id = request.vars.houseID
 
-    form = SQLFORM.factory(db.house,
-                           fields=['title', 'image'],
-                           upload=URL('default','download'),                          
-                           )
+    if joining and join_house_id != None:
+        join_house = db(db.house.id == join_house_id).select().first()
+        db.user_list.update_or_insert(db.user_list.person == auth.user, house=join_house)
+        session.flash = 'House Joined!'
+        redirect(URL('default', 'house'))
+
+
+    form = SQLFORM( db.house,
+                    fields=['title', 'image'],
+                    upload=URL('download'),                          
+                    )
+
     form.add_button('Go Back', URL('default', 'index'))
+
     if form.process().accepted:
         check = db(db.house.title == form.vars.title).select()
-        if(len(check) > 0): #Check if house exists, if so, skip making it and redirect
-            session.flash = "House already exists!"
-            redirect(URL('default','house'))
-        db.house.insert(title=form.vars.title, image=form.vars.image)
+        new_houseID = db.house.insert(title=form.vars.title, image=form.vars.image)
+        new_house = db(db.house.id == new_houseID).select().first()
+
         #Check if person is in Users DB, if so, update their house info, if not, add them with their new house
-        db.users.update_or_insert(db.users.name == auth.user.username, name=auth.user.username, house=form.vars.title)
+        db.user_list.update_or_insert(db.user_list.person == auth.user, house=new_house)
         session.flash = 'House Created!'
+
         redirect(URL('default', 'house'))
+
     elif form.errors:
         response.flash = 'form has errors'
 
@@ -83,22 +93,45 @@ def add_house():
 def people():
     username = request.args(0) #request the username of the person
     if username == None: #In case someone doesn't include a name in the URL
-        redirect(URL('default', 'index')) 
-    person = db(db.auth_user.username == username).select().first() #Find that person in the user database using the username
-    if person == None:
-        session.flash = 'test'
-        redirect(URL('default','index'))
-        return dict(person = None, house = None)
-    user = db(db.users.name == person.username).select().first()
-    logger.info("USER: %r" % user)
-    logger.info("PERSON: %r" % person)
-    house = db(db.house.title == user.house).select().first()
+        redirect(URL('default', 'index'))
 
-    return dict(person = person, user=user, house = house)
+    selector = db(db.auth_user.username == username).select().first()
+
+    user = db(db.user_list.person == selector).select().first()
+    house = db(db.house.id == user.house).select().first()
+
+    return dict(user=user, house = house)
 
 @auth.requires_login()
 def inbox():
-    return dict(today = today_string())
+    this_user = db(db.user_list.person == auth.user).select().first() # this_user refers to the current user in user_list
+    this_house = db(db.house.id == this_user.house).select().first() # this_house refers to the current house this_user is in
+
+    if this_house == None:
+        session.flash = 'Make or Join A House First!'
+        redirect(URL('default', 'house'))
+
+    conversation_list = db(db.conversation.house == this_house).select(orderby=~db.conversation.recent_post)
+
+    form = ''
+    if request.vars.action == 'start':
+        this_time = datetime.utcnow()
+        form = SQLFORM.factory( Field('subject'),
+                                Field('text_message', 'text')
+                                )
+        if form.process().accepted:
+            new_convoID = db.conversation.insert(   subject = form.vars.subject,
+                                                    recent_post = this_time,
+                                                    house = this_house
+                                                    )
+            db.conversation_message.insert( conversation_text = form.vars.text_message,
+                                            date_posted = this_time,
+                                            person_posting = auth.user,
+                                            conversation_id = new_convoID
+                                            )
+            redirect(URL('default', 'inbox'))
+
+    return dict(today = today_string(), form = form, conversation_list = conversation_list, this_user = this_user)
 
 @cache.action()
 def download():
@@ -136,3 +169,7 @@ def today_string():
     today = date.today()
     today_format = today.strftime('Today is %B %d, %Y')
     return today_format
+
+def new_conversation():
+    new_convoID = db.conversation.insert(member1 = auth.user)
+    return new_convoID

@@ -29,17 +29,52 @@
   </div>
   <div class='right-content'>
     <div class='wrapper'>
-      <div class='wallpaper'><div class='over'><div class='greetings'>{{=today}}</div></div></div>
+      <div class='wallpaper'><div class='over'><div class='greetings'>INBOX</div></div></div>
       <div class='house_content'>
-      	<div id='convo_list_bar'></div>
-      	<div id='convo_messages'>
-      		<ul id='participants'>
-      			<li class='thumbnail'></li>
-      		</ul>
-      		<ul id='messages'>
-      			<li class='message_text'>Hey! How are you?</li>
-      		</ul>
-      	</div>
+        {{=A('+ Start A New Conversation', _id='add_msg',_href=URL('default', 'inbox',vars=dict(action='start')))}}
+
+        {{if request.vars.action == 'start':}}
+          {{=form}}
+        {{else:}}
+          <ul id='convo_list'>
+            {{for conversation in conversation_list:}}
+              <li>
+                <h4>{{=conversation.subject}}</h4>
+                <br>
+                <!--Look for a person in the user_list that matches group-->
+                {{conversation_group = db(db.user_list.house == conversation.house).select()}}
+                {{for people in conversation_group:}}
+                  {{logger.info("people.person %r " % people.person)}}
+                  {{peep = db(db.auth_user.id == people.person).select().first()}}
+                  <sub>{{=peep.first_name}} {{=peep.last_name}}, </sub>
+                {{pass}}
+                <br><sub>Most Recent Post: {{=conversation.recent_post}}</sub>
+              </li>
+            {{pass}}
+          </ul>
+          <div class='messenger'>
+            <ul class='messages'>
+              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Not Bad! What if this keeps going for a very long time and it ends up taking a bunch of space?</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Not Bad! What if this keeps going for a very long time and it ends up taking a bunch of space?</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div><span class='message-image'><img src=""></span></li>
+              <li><div class='message-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div><span class='message-image'><img src=""></span></li>
+            </ul>
+            <form><input type='text'></input></form>
+          </div>
+        {{pass}}
       </div>
     </div>
   </div>
