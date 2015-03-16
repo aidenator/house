@@ -62,7 +62,7 @@
                   {{pass}}
                 </ul>
 
-                {{new_message_form = SQLFORM.factory( Field('text_message', 'text'), Field('conversation_id', db.conversation))}}
+                {{new_message_form = SQLFORM.factory( Field('text_message', 'text'))}}
                 {{if new_message_form.process().accepted:}}
                     {{db.conversation_message.insert( conversation_text = new_message_form.vars.text_message, 
                                                       date_posted = datetime.utcnow(),

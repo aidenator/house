@@ -29,6 +29,8 @@ def house():
     if this_user.house != None:
         this_house = this_user.house
         housemates = db(db.user_list.house == this_house).select()
+        this_house_tasks = this_house.house_task_list
+        logger.info('%r' % this_house_tasks)
     else:
         this_house = None
         housemates = None
@@ -85,8 +87,6 @@ def add_house():
 
     elif form.errors:
         response.flash = 'form has errors'
-
-    joinform = SQLFORM
 
     return dict(creating = creating, joining = joining, form = form)
 
@@ -175,3 +175,8 @@ def today_string():
 def new_conversation():
     new_convoID = db.conversation.insert(member1 = auth.user)
     return new_convoID
+
+def taskForm():
+    form = SQLFORM.factory( Field('auth_user', 'list:reference auth_user'),
+                          )
+    return form

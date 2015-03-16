@@ -7,6 +7,7 @@ db.define_table('house',
                 Field('title'),
                 Field('rent', 'double'),
                 Field('image', 'upload'),
+                Field('house_task_list', 'list:reference task_list')
                 )
 
 db.define_table('users',
@@ -36,6 +37,18 @@ db.define_table('conversation_message',
                 Field('person_posting', db.auth_user),
                 Field('conversation_id', db.conversation)
                 )
+
+db.define_table('task',
+                Field('title'),
+                Field('description', 'text'),
+                )
+
+db.define_table('task_list',
+                Field('task_list_name'),
+                Field('tasks', 'list:reference task'),
+                )
+
+db.task_list
 
 #db.bboard.id.readable = False
 #db.bboard.sold.writeable = False
