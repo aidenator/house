@@ -501,24 +501,44 @@ footer {
 }
 
 #convo_list li {
-	background-color: white;
+	width: 100%;
+	display: block;
+}
+
+
+#convo_list li a {
+	color: #95A5A6;
+	display: block;
+	background-color: #ECF0F1;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	padding-left: 30px;
 	padding-right: 30px;
-
 }
 
-#convo_list li:hover {
+#convo_list .active a {
 	background-color: white;
-	cursor: pointer;
+	color: black;
+	text-decoration: none;
 }
 
-#convo_list li h4 {
+#convo_list .active a:hover {
+	background-color: white;
+	color: black;
+	text-decoration: none;
+}
+
+#convo_list li a:hover {
+	background-color: #BDC3C7;
+	color: #2C3E50;
+	text-decoration: none;
+}
+
+#convo_list li a h4 {
 	display: inline-block;
 }
 
-#convo_list li img {
+#convo_list li a img {
 	background-color: grey;
 	width: 30px;
 	height: 30px;
@@ -534,6 +554,7 @@ footer {
 	list-style: none;
 	margin-left: 0px;
 }
+
 .thumbnail {
 	display: inline-block;
 	width: 30px;
@@ -573,16 +594,12 @@ footer {
 		height: 90%;
 	}
 
-	.messenger form {
-		margin-left: 20px;
-		margin-bottom: 0px;
-		height: 10%
-	}
+	.tab-pane.messenger {
+		display: none;
+	} 
 
-	.messenger form input {
-		width: 90%;
-		height: 100%;
-		overflow: auto;
+	.tab-pane.messenger.active {
+		display: inline-block;
 	}
 
 	.messages {
@@ -601,6 +618,7 @@ footer {
 		float: left;
 		width: 300px;
 		padding-top: 20px;
+		padding-bottom: 30px;
 	}
 
 	.messages li img {

@@ -38,7 +38,7 @@
         {{else:}}
           <ul id='convo_list'>
             {{for conversation in conversation_list:}}
-              <li>
+              <li><a href="#{{=conversation.id}}" data-toggle='tab'>
                 <h4>{{=conversation.subject}}</h4>
                 <br>
                 <!--Look for a person in the user_list that matches group-->
@@ -49,31 +49,32 @@
                   <sub>{{=peep.first_name}} {{=peep.last_name}}, </sub>
                 {{pass}}
                 <br><sub>Most Recent Post: {{=conversation.recent_post}}</sub>
-              </li>
+              </a></li>
             {{pass}}
           </ul>
-          <div class='messenger'>
-            <ul class='messages'>
-              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Not Bad! What if this keeps going for a very long time and it ends up taking a bunch of space?</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Hey How are you?</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Not Bad! What if this keeps going for a very long time and it ends up taking a bunch of space?</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div><span class='message-image'><img src=""></span></li>
-              <li><div class='message-text'>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-              quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-              cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-              proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div><span class='message-image'><img src=""></span></li>
-            </ul>
-            <form><input type='text'></input></form>
-          </div>
+          {{for conversation in conversation_list:}}
+            <div class='tab-pane messenger' id="{{=conversation.id}}">
+              
+                <ul class='messages'>
+                  {{m_text_list = db(db.conversation_message.conversation_id == conversation.id).select(orderby=db.conversation_message.date_posted)}}
+                  {{for m_text in m_text_list:}}
+                    <li><div class='message-text'>{{=m_text.conversation_text}}</div><span class='message-image'><img src=""></span></li>
+                  {{pass}}
+                </ul>
+
+                {{new_message_form = SQLFORM.factory( Field('text_message', 'text'), Field('conversation_id', db.conversation))}}
+                {{if new_message_form.process().accepted:}}
+                    {{db.conversation_message.insert( conversation_text = new_message_form.vars.text_message, 
+                                                      date_posted = datetime.utcnow(),
+                                                      person_posting = auth.user,
+                                                      conversation_id = conversation.id
+                                                    )}}
+                    {{redirect(URL('default','inbox#' + str(conversation.id) ))}}
+                {{pass}}
+
+                {{=new_message_form}}
+            </div>
+          {{pass}}
         {{pass}}
       </div>
     </div>

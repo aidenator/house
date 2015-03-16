@@ -131,6 +131,8 @@ def inbox():
                                             )
             redirect(URL('default', 'inbox'))
 
+    
+
     return dict(today = today_string(), form = form, conversation_list = conversation_list, this_user = this_user)
 
 @cache.action()
