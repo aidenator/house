@@ -48,7 +48,8 @@ db.define_table('conversation_message',
 
 #db.house.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The rent should be in the range 0..100000')
 #db.house.title.required = True
+db.user_list.id.readable = False
+db.user_list.person.writable = False
+db.user_list.house.label = 'House ID'
 db.users.firstname = auth.user.first_name if auth.user else "Anonymous"
 db.users.lastname = auth.user.last_name if auth.user else "Anonymous"
-
-db.house.rent.readable = db.house.rent.writable = False

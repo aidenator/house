@@ -3,12 +3,12 @@
 
 <div class='widget' id='profile_widget'>	
 	<center>
-		{{if user.pic != None:}}
+		{{if user.pic != None or user.pic == "":}}
 		<div id=""><img id="profile_pic"src="{{=URL('download',args=user.pic)}}"></div>
 		{{else:}}
-		<div><img id="profile_pic"src="http://shanecradock.com/wp-content/uploads/2014/12/Question-mark.jpg"></div>
+		<div><img id="profile_pic"src="http://emblemsbf.com/img/11864.jpg"></div>
 		{{pass}}
-		<div class='username'>{{=user.person.first_name}} {{=user.person.last_name}}</div>
+		<div class='username'>{{=user.person.first_name.title()}} {{=user.person.last_name.title()}}</div>
 	</center>
 	<div class='profile_content'>
 		<div class='house_group center'>
