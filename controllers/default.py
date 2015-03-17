@@ -142,7 +142,6 @@ def add_house():
     joinform = ""
 
     #JOINING FORM CODE ----------------------------------------------
-    logger.info("MADE IT HERE.")
 
     if joining and join_house_id != None:
         join_house = db(db.house.id == join_house_id).select().first()
@@ -240,7 +239,7 @@ def inbox():
 
     
 
-    return dict(today = today_string(), form = form, conversation_list = conversation_list, this_user = this_user)
+    return dict(today = today_string(), form = form, conversation_list = conversation_list, this_user = this_user, thehouse = this_house)
 
 @cache.action()
 def download():
