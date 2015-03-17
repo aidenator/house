@@ -75,7 +75,7 @@
                 {{if u.pic != None and u.pic != "":}}
                   <img id="profile_pic"src="{{=URL('download',args=u.pic)}}">
                 {{else:}}
-                  <img id="profile_pic"src="http://emblemsbf.com/img/11864.jpg">
+                  <img id="profile_pic"src="{{=URL('static','images/default_profile.jpg')}}">
                 {{pass}}
                   {{full_name = u.person.first_name + ' ' + u.person.last_name}}
                   <div class="center username">{{=A(full_name.title(), _href=URL('default','people',args=[u.person.username]))}}</div>
@@ -90,12 +90,12 @@
 
           <!--TASK TAB-->
           <div role="tabpanel" class="tab-pane center" id="tasks">
-
-            <form action='#' enctype='multipart/form-data' method='post'>
-              <input name='task_list_name' placeholder='Add A Task List'/>
-              <input type='submit' />
-              <input type='hidden' name='_formname' value='taskForm' />
-            </form>
+            <div style="padding-top:70px;">
+              <form action='#' enctype='multipart/form-data' method='post'>
+                <input name='task_list_name' placeholder='Add A Task List'/>
+                <input type='submit' />
+                <input type='hidden' name='_formname' value='taskForm' />
+              </form>
             
             {{if house_task_list != None:}}
 
@@ -121,6 +121,7 @@
                 </ul>
               {{pass}}
               </div>
+            </div>
 
             {{pass}}
 

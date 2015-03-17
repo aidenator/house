@@ -3,10 +3,10 @@
 
 <div class='widget' id='profile_widget'>	
 	<center>
-		{{if user.pic != None or user.pic == "":}}
+		{{if user.pic != None and user.pic != "":}}
 		<div id=""><img id="profile_pic"src="{{=URL('download',args=user.pic)}}"></div>
 		{{else:}}
-		<div><img id="profile_pic"src="http://emblemsbf.com/img/11864.jpg"></div>
+		<div><img id="profile_pic"src="{{=URL('static','images/default_profile.jpg')}}"></div>
 		{{pass}}
 		<div class='username'>{{=user.person.first_name.title()}} {{=user.person.last_name.title()}}</div>
 	</center>
