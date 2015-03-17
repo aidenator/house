@@ -9,8 +9,6 @@
           {{if thehouse != None:}}
           <img class="house_img" src="{{=URL('download',args=thehouse.image)}}">
           {{pass}}
-
-         
       </div>
       <div class='menu'>
         <ul class='category'>
@@ -92,10 +90,42 @@
 
           <!--TASK TAB-->
           <div role="tabpanel" class="tab-pane center" id="tasks">
-            <div id='hose_tasks'>
-              <h2>House Tasks</h2>
-              
-            </div>
+
+            <form action='#' enctype='multipart/form-data' method='post'>
+              <input name='task_list_name' placeholder='Add A Task List'/>
+              <input type='submit' />
+              <input type='hidden' name='_formname' value='taskForm' />
+            </form>
+            
+            {{if house_task_list != None:}}
+
+              <div id='house_tasks'>
+              {{for task_list in house_task_list:}}
+
+                <ul class='task_list'>
+                  {{tl = db(db.task_list.id == task_list).select().first()}}
+                  <div class='list-title'>{{=tl.task_list_name}}</div>
+                  <div class='lists'>
+                    {{for t in tl.tasks:}}
+                    <li>{{=db(db.task.id == t).select().first().title}} : {{=db(db.task.id == t).select().first().description}}</li>
+                    {{pass}}
+                  </div>
+                  <li>
+                    <form action='#' enctype='multipart/form-data' method='post'>
+                      <input name='title' placeholder='Task Name'/><br>
+                      <input type='text' placeholder='Task Description' name='description'/><br>
+                      <input type='submit' />
+                      <input type='hidden' name='_formname' value='child{{=str(tl.id)}}'}} />
+                    </form>
+                  </li>
+                </ul>
+              {{pass}}
+              </div>
+
+            {{pass}}
+
+
+
           </div>
 
           <!--RENT TAB-->

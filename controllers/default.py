@@ -33,11 +33,11 @@ def house():
     if this_user.house != None:
         this_house = this_user.house
         housemates = db(db.user_list.house == this_house).select()
-        this_house_tasks = this_house.house_task_list
-        logger.info('%r' % this_house_tasks)
+        house_task_list = this_house.house_task_list
     else:
         this_house = None
         housemates = None
+        house_task_list = None
 
     #SETTINGS TAB CODE ---------------------
     record = db(db.user_list.person == auth.user).select().first()
@@ -53,8 +53,64 @@ def house():
     elif settingsform.errors:
         response.flash = 'form has errors'
 
+    #TASK TAB CODE --------------------------
 
-    return dict(today = today_string(), pic = this_pic, users=housemates, thehouse = this_house, settingsform = settingsform)
+    #PARENT TASK CODE
+    parent_task_form = SQLFORM(db.task_list)
+    if parent_task_form.process(session=None, formname='taskForm').accepted:
+        new_task = db(db.task_list.id == parent_task_form.vars.id)
+        new_task.update(task_list_name = parent_task_form.vars.task_list_name)
+
+        thehouse = db(db.house.id == this_house).select().first()
+
+        this_house_task_list = thehouse.house_task_list
+        logger.info("tasklist is = %r" % this_house_task_list)
+
+        if this_house_task_list == None:
+            this_house_task_list = [parent_task_form.vars.id]
+            logger.info("NEW tasklist is = %r" % this_house_task_list)
+        else:
+            this_house_task_list.append(parent_task_form.vars.id)
+
+        db.house.update_or_insert(db.house.id == thehouse.id, house_task_list = this_house_task_list)
+
+        logger.info("thehouse is = %r" % thehouse)
+        response.flash = 'form accepted'
+        redirect(URL('default', 'house'))
+    elif parent_task_form.errors:
+        response.flash = 'form has errors'
+
+    #CHILD TASK CODE
+    child_task_form = SQLFORM(db.task)
+    if house_task_list != None:
+        for task_list in house_task_list:
+            tl = db(db.task_list.id == task_list).select().first()
+            logger.info('tl is %r' %tl)
+
+            if child_task_form.process(session=None, formname='child'+str(tl.id) ).accepted:
+                new_tltask = db(db.task.id == child_task_form.vars.id)
+                new_tltask.update(title = child_task_form.vars.title,
+                                description = child_task_form.vars.description)
+                new_tasks = tl.tasks
+                if new_tasks == None:
+                    new_tasks = [child_task_form.vars.id]
+                else:
+                    new_tasks.append(child_task_form.vars.id)
+
+                db.task_list.update_or_insert(db.task_list.id == tl.id, tasks = new_tasks)
+
+                redirect(URL('default', 'house'))
+
+            elif child_task_form.errors:
+                response.flash = 'form has errors'
+
+        pass
+
+    return dict(today = today_string(), 
+                pic = this_pic, users=housemates, 
+                thehouse = this_house, 
+                settingsform = settingsform, 
+                house_task_list = house_task_list)
 
 def user():
     """

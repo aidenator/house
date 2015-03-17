@@ -394,6 +394,32 @@ THIS IS ALL THE THINGS PERTAINING TO THE MAIN WIDGET
 				padding-top: 30px;
 			}
 
+	#house_tasks {
+		overflow: auto;
+		height: 600px;
+	}
+
+	.task_list {
+		list-style: none;
+		margin-left: 0px;
+		display: inline-block;
+		float: left;
+		height: 300px;
+		border: 1px solid grey;
+		border-radius: 10px;
+		padding-top: 10px;
+		margin-left: 20px;
+	}
+
+	.task_list .list-title {
+		font-size: 1.5em;
+	}
+
+	.lists {
+		height: 180px;
+		overflow: auto;
+		max-width: 400px;
+	}
 
 /*****************************************************
 THIS IS ALL THE THINGS PERTAINING TO THE PEOPLE PROFILE
@@ -632,3 +658,4 @@ footer {
 		vertical-align: middle;
 
 	}
+
