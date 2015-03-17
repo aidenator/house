@@ -177,19 +177,21 @@ def add_house():
 
     #CREATING FORM CODE  --------------------------------------------
     form = SQLFORM( db.house,
-                    fields=['title', 'image'],
+                    fields=['title', 'rent', 'image'],
                     upload=URL('download'),                          
                     )
 
     form.add_button('Go Back', URL('default', 'index'))
 
     if form.process().accepted:
-        check = db(db.house.title == form.vars.title).select()
-        new_houseID = db.house.insert(title=form.vars.title, image=form.vars.image)
-        new_house = db(db.house.id == new_houseID).select().first()
+        check = db(db.house.title == form.vars.title).select().first()
+        #houseid = db(db.house.ALL).select().last()
+        #logger.info("LAST HOUSE ID IS: %r" % houseid)
+        #new_houseID = db.house.insert(title=form.vars.title, image=form.vars.image)
+        #new_house = db(db.house.id == new_houseID).select().first()
 
         #Check if person is in Users DB, if so, update their house info, if not, add them with their new house
-        db.user_list.update_or_insert(db.user_list.person == auth.user, house=new_house)
+        db.user_list.update_or_insert(db.user_list.person == auth.user, house=check.id)
         session.flash = 'House Created!'
 
         redirect(URL('default', 'house'))

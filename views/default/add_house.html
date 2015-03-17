@@ -1,21 +1,28 @@
 {{('message' in globals())}}
 {{extend 'layout.html'}}
 
+
+<div class="center">
+<img src="http://clipart-finder.com/data/preview/lake_view.png" style="height:300px">
 {{if not (joining or creating):}}
+		
 	<div>
 		{{=A('Create A New House', _class='btn', _href=URL('default', 'add_house', vars=dict(action='create')))}}
 		{{=A('Join An Existing House', _class='btn', _href=URL('default', 'add_house', vars=dict(action='join')))}}
 	</div>
 
-	<!--JOINING-->
-	{{elif joining:}}
-		<div>Hey I'm Joining!</div>
-		{{=joinform}}
-	<!--CREATING-->
-	{{elif creating:}}
-		<div>Hey I'm creating!</div>
-		{{=form}}
+<!--JOINING-->
+{{elif joining:}}
+	<h2>Join a house!</h2>
+	<div style="font-size:16px;">You must know the ID of a house in order to join it.</div>
+	<div class="formdivinner" style="width:auto;padding-top:0px;">{{=joinform}}</div>
+
+<!--CREATING-->
+{{elif creating:}}
+	<h2>Create a new house!</h2>
+	<div class="formdivinner" style="width:auto;padding-top:0px;">{{=form}}</div>
 
 {{pass}}
+</div>
 
 <hr>
