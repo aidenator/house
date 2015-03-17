@@ -2,6 +2,7 @@
 import logging
 from datetime import datetime
 from datetime import date 
+from calendar import monthrange
 
 def index():
     message = ''
@@ -19,13 +20,10 @@ def house():
     thehouse = None
     this_username = auth.user.username
     user_db = db(db.user_list.person == auth.user).select()
-    user = db(db.users.name == auth.user.username).select()
 
     if( len(user_db) == 0 ):
         db.user_list.insert(person = auth.user)
 
-    if( len(user) == 0 ):
-        db.users.insert(name = auth.user.username)
 
     this_user = db(db.user_list.person == auth.user).select().first()
     this_pic = this_user.pic if this_user.pic != None else ""
@@ -106,11 +104,23 @@ def house():
 
         pass
 
+    #Here I find how many days are in the current month and subtract it from today's day number
+    #This will let me know how many days are left until rent is due
+    today = date.today()
+    today_day  = int( today.strftime('%d') ) # 3
+    today_month= int( today.strftime('%m') ) # 16
+    today_year = int( today.strftime('%Y') ) # 2015
+
+    month_range = monthrange(today_year, today_month) #monthrange(2015, 3) = (1,31)
+    rent_due = month_range[1] - today_day
+
     return dict(today = today_string(), 
                 pic = this_pic, users=housemates, 
                 thehouse = this_house, 
                 settingsform = settingsform, 
-                house_task_list = house_task_list)
+                house_task_list = house_task_list,
+                rent_due = rent_due
+                )
 
 def user():
     """
@@ -138,8 +148,6 @@ def add_house():
 
     #JOINING FORM CODE ----------------------------------------------
     logger.info("MADE IT HERE.")
-
-    
 
     if joining and join_house_id != None:
         join_house = db(db.house.id == join_house_id).select().first()
@@ -203,6 +211,7 @@ def people():
 
     return dict(user=user, house = house)
 
+#We never got around to fully implementing this feature :(
 @auth.requires_login()
 def inbox():
     this_user = db(db.user_list.person == auth.user).select().first() # this_user refers to the current user in user_list

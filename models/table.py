@@ -10,18 +10,10 @@ db.define_table('house',
                 Field('house_task_list', 'list:reference task_list')
                 )
 
-db.define_table('users',
-                Field('name', 'text'),
-                Field('first_name', 'text'),
-                Field('last_name',  'text'),
-                Field('house','text'),
-                Field('rent','double'),
-                Field('user_pic', 'upload'),
-                )
-
 db.define_table('user_list',
                 Field('person', db.auth_user),
                 Field('house', db.house),
+                Field('rent','double'),
                 Field('pic', 'upload'),
                 )
 
@@ -59,10 +51,12 @@ db.task_list
 #db.bboard.category.requires = IS_IN_SET(CATEGORY)
 #db.bboard.category.required = True
 
-#db.house.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The rent should be in the range 0..100000')
-#db.house.title.required = True
+db.user_list.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The rent should be in the range 0..100000')
+db.house.rent.requires = IS_FLOAT_IN_RANGE(0, 100000.0, error_message='The rent should be in the range 0..100000')
+db.house.title.required = True
 db.user_list.id.readable = False
 db.user_list.person.writable = False
 db.user_list.house.label = 'House ID'
-db.users.firstname = auth.user.first_name if auth.user else "Anonymous"
-db.users.lastname = auth.user.last_name if auth.user else "Anonymous"
+db.user_list.rent.label = 'Your rent'
+db.user_list.rent.default = 0
+db.house.rent.default = 0

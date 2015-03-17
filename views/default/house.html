@@ -72,7 +72,7 @@
             <div class="center" style="width:100%;">
               {{for u in users:}}
                 <div style="width:200px;display:inline-block;" class="">
-                {{if u.pic != None:}}
+                {{if u.pic != None and u.pic != "":}}
                   <img id="profile_pic"src="{{=URL('download',args=u.pic)}}">
                 {{else:}}
                   <img id="profile_pic"src="http://emblemsbf.com/img/11864.jpg">
@@ -129,7 +129,32 @@
           </div>
 
           <!--RENT TAB-->
-          <div role="tabpanel" class="tab-pane center" id="rent">3</div>
+          <div role="tabpanel" class="tab-pane center" id="rent">
+              <div style="width:80%;display:inline-block;margin-top:20px;">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Housemate</th>
+                      <th>Username</th>
+                      <th>Rent Share</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {{for u in users:}}
+                    <tr>
+                      <td>{{=u.person.first_name.title()}} {{=u.person.last_name.title()}}</td>
+                      <td>{{=u.person.username}}</td>
+                      <td>${{=u.rent}}</td>
+                    </tr>
+                  {{pass}}
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="font-size:20px">
+                Your total rent is <b>${{=thehouse.rent}}</b> and is due in <span style="color:red;">{{=rent_due}}</span> days.
+              </div>
+          </div>
 
           <!--HOUSE SETTINGS TAB-->
           <div role="tabpanel" class="tab-pane center" id="settings">
@@ -137,6 +162,10 @@
               <div class="formdivinner">
                 {{=settingsform}}
               </div>
+            </div>
+
+            <div style="font-size:16px;">
+              <b>Pro Tip:</b> Change houses by updating your house ID. Update your rent share and profile picture too! 
             </div>
           </div>
 
