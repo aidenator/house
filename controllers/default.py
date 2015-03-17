@@ -7,7 +7,6 @@ from calendar import monthrange
 def index():
     message = ''
     listofhouses = ""
-    logger.info("Username is = %r" % auth.user)
 
     if auth.user == None:
         redirect(URL('default', 'user', args = ['login']))
@@ -62,17 +61,14 @@ def house():
         thehouse = db(db.house.id == this_house).select().first()
 
         this_house_task_list = thehouse.house_task_list
-        logger.info("tasklist is = %r" % this_house_task_list)
 
         if this_house_task_list == None:
             this_house_task_list = [parent_task_form.vars.id]
-            logger.info("NEW tasklist is = %r" % this_house_task_list)
         else:
             this_house_task_list.append(parent_task_form.vars.id)
 
         db.house.update_or_insert(db.house.id == thehouse.id, house_task_list = this_house_task_list)
 
-        logger.info("thehouse is = %r" % thehouse)
         response.flash = 'form accepted'
         redirect(URL('default', 'house'))
     elif parent_task_form.errors:
@@ -83,7 +79,6 @@ def house():
     if house_task_list != None:
         for task_list in house_task_list:
             tl = db(db.task_list.id == task_list).select().first()
-            logger.info('tl is %r' %tl)
 
             if child_task_form.process(session=None, formname='child'+str(tl.id) ).accepted:
                 new_tltask = db(db.task.id == child_task_form.vars.id)

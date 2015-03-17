@@ -44,7 +44,6 @@
                 <!--Look for a person in the user_list that matches group-->
                 {{conversation_group = db(db.user_list.house == conversation.house).select()}}
                 {{for people in conversation_group:}}
-                  {{logger.info("people.person %r " % people.person)}}
                   {{peep = db(db.auth_user.id == people.person).select().first()}}
                   <sub>{{=peep.first_name}} {{=peep.last_name}}, </sub>
                 {{pass}}
