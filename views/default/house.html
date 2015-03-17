@@ -108,13 +108,13 @@
                   <div class='list-title'>{{=tl.task_list_name}}</div>
                   <div class='lists'>
                     {{for t in tl.tasks:}}
-                    <li>{{=db(db.task.id == t).select().first().title}} : {{=db(db.task.id == t).select().first().description}}</li>
+                    <li>{{=db(db.task.id == t).select().first().title}}  :  {{=db(db.task.id == t).select().first().description}}</li>
                     {{pass}}
                   </div>
                   <li>
-                    <form action='#' enctype='multipart/form-data' method='post'>
-                      <input name='title' placeholder='Task Name'/><br>
-                      <input type='text' placeholder='Task Description' name='description'/><br>
+                    <form action='#' enctype='multipart/form-data' method='post' style='margin:10px 0px 0px 0px;'>
+                      <input name='title' placeholder='Task Name'/>    
+                      <input type='text' placeholder='Task Description' name='description' style='margin:0px;'/>
                       <input type='submit' />
                       <input type='hidden' name='_formname' value='child{{=str(tl.id)}}'}} />
                     </form>
