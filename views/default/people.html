@@ -17,7 +17,7 @@
 				<div>Not part of a House. :(</div>
 			{{else:}}
 				<div class='center'>
-					<div>
+					<div style="font-size:16px;">
 					   <img id="profile_pic_small" src="{{=URL('download',args=house.image)}}">
 					   <br>
 					   {{=house.title}}
@@ -26,7 +26,7 @@
 			{{pass}}
 		</div>
 		<hr>
-		<div class="center" style="font-size:18px;">Contact me at: {{=user.person.email}}</div>
+		<div class="center" style="font-size:18px;"><b>Contact me at:</b> {{=user.person.email}}</div>
 	</div>
 
 </div>
