@@ -62,7 +62,7 @@
                 <ul class='messages'>
                   {{m_text_list = db(db.conversation_message.conversation_id == conversation.id).select(orderby=db.conversation_message.date_posted)}}
                   {{for m_text in m_text_list:}}
-                    <li><div class='message-text'>{{=m_text.conversation_text}}</div><span class='message-image'><img src=""></span></li>
+                    <li><div class='message-text'>{{=m_text.conversation_text}}</div><span class='message-image'><img src="{{=URL('download',args=db(db.user_list.person == m_text.person_posting).select().first().pic)}}"></span></li>
                   {{pass}}
                 </ul>
 
